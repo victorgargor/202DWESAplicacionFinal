@@ -18,6 +18,6 @@
         <input type="submit" name="iniciarsesion" value="Iniciar Sesión">
     </div>
 </form>
-<form>
+<form method="post">
     <input type="submit" name="volver" value="Volver">
 </form>

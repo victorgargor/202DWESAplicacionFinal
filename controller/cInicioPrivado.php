@@ -28,7 +28,7 @@ if (isset($_REQUEST['error'])) {
 
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['rest'])) {
-    $_SESSION['paginaEnCurso'] = 'wip';
+    $_SESSION['paginaEnCurso'] = 'api';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
