@@ -4,8 +4,7 @@
  * @version Fecha de última modificación 23/01/2025 
  */
 ?>
-<h1 class="text-secondary">REST APIs</h1>
-<form class="position-absolute top-0 end-0" style="margin-top: 0px; margin-right: 15px" name="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form class="position-absolute top-0 end-0" style="margin-top: -30px; margin-right: 15px" name="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <input class="btn btn-danger" name="volver" type="submit" value="Volver">
 </form>
 
