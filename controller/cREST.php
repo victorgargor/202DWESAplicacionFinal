@@ -15,9 +15,8 @@ if (isset($_REQUEST['volver'])) {
 
 // Inicializa el array que almacenará los resultados de las APIs
 $aVistaRest = [
-    'nasa' => [], // Array para almacenar la información de la NASA (título y foto)
-    'AEMET' => '', // Cadena vacía para almacenar la previsión de AEMET (por ahora no se utiliza)
-    'departamento' => []  // Array vacío para almacenar la información del departamento
+    'Nasa' => [], // Array para almacenar la información de la NASA (título y foto)
+    'AEMET' => '', // Cadena vacía para almacenar la previsión de AEMET 
 ];
 
 // Se establece la fecha actual como la fecha en curso para la NASA (por defecto)
@@ -36,18 +35,43 @@ try {
     // Verifica si la respuesta es válida
     if ($oFotoNasaEnCurso && is_object($oFotoNasaEnCurso)) {
         // Almacena el título de la foto obtenida de la API de la NASA
-        $aVistaRest['nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
+        $aVistaRest['Nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
 
         // Almacena la URL de la foto obtenida de la API de la NASA
-        $aVistaRest['nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
+        $aVistaRest['Nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
     } else {
         throw new Exception('La API de la NASA no devolvió datos válidos.');
     }
 } catch (Exception $e) {
     // Manejo de errores: muestra el mensaje de error si algo salió mal con la API de la NASA
     error_log('Error al obtener los datos de la NASA: ' . $e->getMessage());
-    $aVistaRest['nasa']['titulo'] = 'Error al cargar la información';
-    $aVistaRest['nasa']['foto'] = ''; // Asigna una cadena vacía si ocurre un error
+    $aVistaRest['Nasa']['titulo'] = 'Error al cargar la información';
+    $aVistaRest['Nasa']['foto'] = ''; // Asigna una cadena vacía si ocurre un error
+}
+
+// Inicializa la provincia por defecto para la API de la AEMET
+$_SESSION['AEMETProvinciaEnCurso'] = '49'; // Código (Zamora)
+
+// Si se envía un código de provincia desde el formulario, se actualiza en la sesión
+if (isset($_REQUEST['provincia'])) {
+    $_SESSION['AEMETProvinciaEnCurso'] = $_REQUEST['provincia'];
+}
+
+try {
+    // Llama a la API de la AEMET utilizando el código de provincia actual
+    $oAEMETProvinciaEnCurso = REST::apiAemet($_SESSION['AEMETProvinciaEnCurso']);
+
+    // Verifica si la respuesta es válida
+    if ($oAEMETProvinciaEnCurso && is_object($oAEMETProvinciaEnCurso)) {
+        // Almacena la predicción meteorológica obtenida de la API de la AEMET
+        $aVistaRest['AEMET'] = $oAEMETProvinciaEnCurso->getTiempo();
+    } else {
+        throw new Exception('La API de la AEMET no devolvió datos válidos.');
+    }
+} catch (Exception $e) {
+    // Manejo de errores: muestra el mensaje de error si algo salió mal con la API de la NASA
+    error_log('Error al obtener los datos de la AEMET: ' . $e->getMessage());
+    $aVistaRest['AEMET'] = 'Error al cargar la información';
 }
 
 // Incluyo la vista

@@ -30,8 +30,26 @@
         </form>
     </div>
 
-    <!-- Sección 2: Vacía -->
-    <div class="api-section"></div>
+     <!-- Sección 2: AEMET API -->
+    <div class="api-section aemet-section">
+        <form name="formulario2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <fieldset class="aemet">
+                <legend><h2>Predicción Meteorológica - AEMET</h2></legend>
+                <label for="provincia">Selecciona la provincia:</label>
+                <select name="provincia" id="provincia">
+                    <option value="49" <?php echo (isset($_SESSION['AEMETProvincia']) && $_SESSION['AEMETProvincia'] == '49') ? 'selected' : ''; ?>>Zamora</option>
+                    <option value="28" <?php echo (isset($_SESSION['AEMETProvincia']) && $_SESSION['AEMETProvincia'] == '28') ? 'selected' : ''; ?>>Madrid</option>
+                    <option value="08" <?php echo (isset($_SESSION['AEMETProvincia']) && $_SESSION['AEMETProvincia'] == '08') ? 'selected' : ''; ?>>Barcelona</option>
+                </select>
+                <input type="submit" value="Pedir" name="aemet">
+                <p><b>Predicción:</b> <?php echo isset($aVistaRest['AEMET']) ? $aVistaRest['AEMET'] : 'Predicción no disponible'; ?></p>
+                <hr>
+                <p><b>URL:</b> https://opendata.aemet.es/opendata/api/prediccion/provincia/hoy/{provincia}/?api_key=API_KEY</p>
+                <p><b>Parámetros:</b> Código de Provincia</p>
+                <p><b>Método:</b> GET</p>
+            </fieldset>
+        </form>
+    </div>
 
     <!-- Sección 3: Vacía -->
     <div class="api-section"></div>
