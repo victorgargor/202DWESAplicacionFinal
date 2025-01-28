@@ -4,10 +4,6 @@
  * @version Fecha de última modificación 23/01/2025 
  */
 ?>
-<form class="position-absolute top-0 end-0" style="margin-top: -30px; margin-right: 15px" name="formulario" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <input class="btn btn-danger" name="volver" type="submit" value="Volver">
-</form>
-
 <div class="api-container">
     <!-- Sección 1: NASA API -->
     <div class="api-section nasa-section">

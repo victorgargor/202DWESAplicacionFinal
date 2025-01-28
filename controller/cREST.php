@@ -3,6 +3,12 @@
  * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
  * @version Fecha de última modificación 28/01/2025 
  */
+// Si se pulsa volver
+if (isset($_REQUEST['volver'])) {
+    $_SESSION['paginaEnCurso'] = 'inicioPrivado';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
 // Inicializa el array que almacenará los resultados de las APIs
 $aVistaRest = [
     'nasa' => [], // Array para almacenar la información de la NASA (título y foto)
