@@ -1,30 +1,22 @@
 <?php
 /**
- * @author Víctor García Gordón
- * @version Fecha de última modificación 23/01/2025 
+ * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
+ * @version Fecha de última modificación 28/01/2025 
  */
-
-// Si se pulsa el botón 'volver'
-if (isset($_REQUEST['volver'])) {
-    $_SESSION['paginaEnCurso'] = 'inicioPrivado';
-    require_once $aControladores[$_SESSION['paginaEnCurso']];
-    // Se establece la fecha actual como la fecha en curso de la NASA
-    $_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
-    exit(); 
-}
-
 // Inicializa el array que almacenará los resultados de las APIs
 $aVistaRest = [
-    'Nasa' => [], // Array para almacenar la información de la NASA (título y foto)
+    'nasa' => [], // Array para almacenar la información de la NASA (título y foto)
 ];
 
 // Se establece la fecha actual como la fecha en curso para la NASA (por defecto)
-$_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
+if (!isset($_SESSION['nasaFechaEnCurso'])) {
+    $_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
+}
 
-// Verifica si se ha enviado una fecha específica para la foto de la NASA desde el formulario
-if (isset($_REQUEST['fechaNasa'])) {
+// Verifica si se ha enviado una fecha específica para la foto de la NASA desde el formulario o la llamada AJAX
+if (isset($_POST['fechaNasa'])) {
     // Si se ha enviado una fecha, la asigna como la nueva fecha en curso para la NASA
-    $_SESSION['nasaFechaEnCurso'] = $_REQUEST['fechaNasa'];
+    $_SESSION['nasaFechaEnCurso'] = $_POST['fechaNasa'];
 }
 
 try {
@@ -34,18 +26,18 @@ try {
     // Verifica si la respuesta es válida
     if ($oFotoNasaEnCurso && is_object($oFotoNasaEnCurso)) {
         // Almacena el título de la foto obtenida de la API de la NASA
-        $aVistaRest['Nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
+        $aVistaRest['nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
 
         // Almacena la URL de la foto obtenida de la API de la NASA
-        $aVistaRest['Nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
+        $aVistaRest['nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
     } else {
         throw new Exception('La API de la NASA no devolvió datos válidos.');
     }
 } catch (Exception $e) {
     // Manejo de errores: muestra el mensaje de error si algo salió mal con la API de la NASA
     error_log('Error al obtener los datos de la NASA: ' . $e->getMessage());
-    $aVistaRest['Nasa']['titulo'] = 'Error al cargar la información';
-    $aVistaRest['Nasa']['foto'] = ''; // Asigna una cadena vacía si ocurre un error
+    $aVistaRest['nasa']['titulo'] = 'Error al cargar la información';
+    $aVistaRest['nasa']['foto'] = ''; // Asigna una cadena vacía si ocurre un error
 }
 
 // Incluyo la vista

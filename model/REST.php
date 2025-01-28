@@ -1,13 +1,11 @@
 <?php
-
 /**
- * @author Víctor García Gordón
- * @version Fecha de última modificación 23/01/2025 
+ * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
+ * @version Fecha de última modificación 28/01/2025 
  */
 class REST {
 
     const apikeyNASA = 'G0efsc0nhZCxCJUliziDhKh5tUhrWKbHbPfB9oTa';
-    const apikeyAEMET = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb2dvcmRlcm9zdmljdG9yaW5vQGdtYWlsLmNvbSIsImp0aSI6ImRiZWZiMzg1LWFmNDgtNDkwYi04ZWJmLTk3NGVlYzRlMTMxNiIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzM3OTc3OTc4LCJ1c2VySWQiOiJkYmVmYjM4NS1hZjQ4LTQ5MGItOGViZi05NzRlZWM0ZTEzMTYiLCJyb2xlIjoiIn0.RuY4PDRA-uV1IpFoeDN_n6AIc3LXN-e2Ur1Xj36VNg0';
 
     public static function apiNasa($fecha) {
         try {
@@ -17,27 +15,24 @@ class REST {
             // Decodifica el resultado de la API desde formato JSON a un array asociativo de PHP.
             $archivoAPI = json_decode($resultado, true);
 
-            // Verifica si el resultado contiene datos válidos.
-            if (isset($archivoAPI)) {
+            // Verifica si la respuesta contiene los campos 'title' y 'url'
+            if (isset($archivoAPI['title']) && isset($archivoAPI['url'])) {
                 // Crea una instancia de la clase FotoNasa con los datos obtenidos de la API.
                 $fotoNasa = new FotoNasa($archivoAPI['title'], $archivoAPI['url']);
                 return $fotoNasa; // Retorna la instancia de FotoNasa.
             } else {
-                // Si no hay datos válidos, retorna null.
+                // Si no hay datos válidos (por ejemplo, faltan 'title' o 'url'), retorna null.
                 return null;
             }
         } catch (Exception $excepcion) {
-            // Guarda la página actual en la sesión como la página anterior.
-            $_SESSION['paginaAnterior'] = $_SESSION['paginaEnCurso'];
+            // Manejo de excepciones: podrías hacer un log aquí si necesitas más detalles.
+            error_log('Error al obtener datos de la API de NASA: ' . $excepcion->getMessage());
 
-            // Cambia la página en curso a una página de error.
+            // Redirige a una página de error si la API falla.
             $_SESSION['paginaEnCurso'] = 'error';
-
-            // Crea una nueva instancia de ErrorApp con los detalles de la excepción.
             $_SESSION['error'] = new ErrorApp($excepcion->getCode(), $excepcion->getMessage(), $excepcion->getFile(), $excepcion->getLine());
 
-            // Redirige al usuario a la página de inicio en caso de error.
-            header('Location:indexLoginLogoff.php');
+            header('Location: indexLoginLogoff.php');
             exit();
         }
     }

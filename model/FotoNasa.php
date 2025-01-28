@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Víctor García Gordón
- * @version Fecha de última modificación 23/01/2025 
+ * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
+ * @version Fecha de última modificación 28/01/2025 
  */
 class FotoNasa{
     private $titulo;
