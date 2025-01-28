@@ -41,39 +41,4 @@ class REST {
             exit();
         }
     }
-
-    public static function apiAemet($provincia) {
-        try {
-            // Obtenemos el resultado de la API REST de AEMET para la provincia especificada
-            $resultado = file_get_contents("https://opendata.aemet.es/opendata/api/prediccion/provincia/hoy/{$provincia}/?api_key=" . self::apikeyAEMET);
-
-            // Decodificamos el JSON obtenido desde la API en un array asociativo
-            $archivoApi = json_decode($resultado, true);
-
-            // Verificamos si el array contiene información
-            if (isset($archivoApi)) {
-                // Creamos una instancia de la clase PrediccionAemet con los datos recibidos
-                $tiempoAemet = new AEMET ($archivoApi['datos']);
-
-                // Retornamos la instancia que contiene la predicción del tiempo
-                return $tiempoAemet;
-            } else {
-                // Si el array no contiene datos, devolvemos null
-                return null;
-            }
-        } catch (Exception $excepcion) {
-            // Guarda la página actual en la sesión como la página anterior.
-            $_SESSION['paginaAnterior'] = $_SESSION['paginaEnCurso'];
-            
-            // Cambia la página en curso a una página de error.
-            $_SESSION['paginaEnCurso'] = 'error';
-
-            // Creamos una instancia de ErrorApp con los detalles del error
-            $_SESSION['error'] = new ErrorApp($excepcion->getCode(), $excepcion->getMessage(), $excepcion->getFile(), $excepcion->getLine());
-
-            // Redirige al usuario a la página de inicio en caso de error
-            header('Location:indexLoginLogoff.php');
-            exit(); 
-        }
-    }
 }

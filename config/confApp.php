@@ -15,7 +15,6 @@ require_once 'model/UsuarioDB.php';
 require_once 'model/UsuarioPDO.php';
 require_once 'model/REST.php';
 require_once 'model/FotoNasa.php';
-require_once 'model/AEMET.php';
 
 // Creamos un array para los controladores
 $aControladores = [
