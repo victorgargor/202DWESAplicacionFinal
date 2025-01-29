@@ -4,12 +4,11 @@
  * @version Fecha de última modificación 15/01/2025 
  */
 
+
 // Si se pulsa el botón volver
-if (isset($_REQUEST['volver'])) {    
-    // Asigno a la página en curso la página anterior
-    $_SESSION['paginaEnCurso'] = $_SESSION['paginaAnterior'];   
-    // Redirijo al index
-    header('Location: ../202DWESLoginLogoff/indexLoginLogoff.php'); 
+if (isset($_REQUEST['volver'])) {
+    $_SESSION['paginaEnCurso'] = $_SESSION['paginaAnterior'];
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
 
