@@ -18,7 +18,7 @@
         </header>
         <main>  
             <p id="logo">
-                <img src="doc/logo.jpg" alt="logo" width="50px" height="50px"/>
+                <img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/>
             </p>    
             <div class="center">
                 <?php require_once $aVistas[$_SESSION['paginaEnCurso']];?>
@@ -26,12 +26,13 @@
         </main>
         <footer>
             <div>
-                <a><img src="doc/logo.jpg" alt="logo" width="50px" height="50px"/></a>
+                <a><img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/></a>
                 <a href="/index.html">Víctor García Gordón</a>
                 <a href="doc/index.html">PHPDocumentor</a>
-                <a target="blank" href="doc/curriculum.pdf"><img src="doc/curriculum.jpg" alt="curriculum"></a>
-                <a target="blank" href="https://github.com/victorgargor/202DWESAplicacionFinal"><img src="doc/github.png" alt="github"></a>
+                <a target="blank" href="doc/curriculum.pdf"><img src="webroot/media/images/curriculum.jpg" alt="curriculum"></a>
+                <a target="blank" href="https://github.com/victorgargor/202DWESAplicacionFinal"><img src="webroot/media/images/github.png" alt="github"></a>
                 <a target="blank" href="https://github.com">Web Imitada</a>
+                <a type="application/rss+xml" href="webroot/feed/feed.xml"><img src="webroot/media/images/rss.png" alt="rss"></a>
             </div>
         </footer>
     </body>

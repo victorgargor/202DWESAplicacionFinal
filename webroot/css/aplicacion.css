@@ -599,6 +599,38 @@ footer img {
     outline: none;
 }
 
+.registro {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Limitar el ancho máximo del formulario */
+}
+
+.registro .form-group {
+    margin-bottom: 15px;
+}
+
+.registro .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.registro .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.registro .form-group input:focus {
+    border-color: #0366d6;
+    outline: none;
+}
+
 
 .descripcion-usuario {
     font-size: 18px;
@@ -793,6 +825,7 @@ footer img {
 }
 
 @media (max-width: 768px) {
+    
     header {
         padding: 10px;
     }

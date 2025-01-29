@@ -11,6 +11,13 @@ if (isset($_REQUEST['volver'])) {
     exit();
 }
 
+if (isset($_REQUEST['registrarse'])) {
+    // Establece la variable de sesión 'paginaEnCurso' en 'inicioPublico'
+    $_SESSION['paginaEnCurso'] = 'registro';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
+
 // Variable para indicar que las respuestas son correctas
 $entradaOK = true;
 
