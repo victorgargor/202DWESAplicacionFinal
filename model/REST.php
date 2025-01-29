@@ -9,24 +9,14 @@ class REST {
 
     public static function apiNasa($fecha) {
         try {
-            // Validar que la fecha tenga el formato correcto
-            if (!self::validarFecha($fecha)) {
-                throw new Exception("Fecha inválida proporcionada para la API de la NASA.");
-            }
-
             // Llama a la API de NASA con la fecha proporcionada como parámetro.
             $resultado = file_get_contents("https://api.nasa.gov/planetary/apod?api_key=" . self::apikeyNASA . "&date=$fecha");
-
-            // Si la respuesta es vacía o no se pudo obtener el contenido, lanzamos una excepción
-            if ($resultado === false) {
-                throw new Exception("Error al obtener los datos de la API de la NASA.");
-            }
 
             // Decodifica el resultado de la API desde formato JSON a un array asociativo de PHP.
             $archivoAPI = json_decode($resultado, true);
 
             // Verifica si la respuesta contiene los campos 'title' y 'url'
-            if (isset($archivoAPI['title']) && isset($archivoAPI['url'])) {
+            if (isset($archivoAPI)) {
                 // Crea una instancia de la clase FotoNasa con los datos obtenidos de la API.
                 $fotoNasa = new FotoNasa($archivoAPI['title'], $archivoAPI['url']);
                 return $fotoNasa; // Retorna la instancia de FotoNasa.
@@ -50,11 +40,5 @@ class REST {
             header('Location: indexLoginLogoff.php');
             exit();
         }
-    }
-
-    // Función para validar el formato de la fecha
-    private static function validarFecha($fecha) {
-        $fechaValida = DateTime::createFromFormat('Y-m-d', $fecha);
-        return $fechaValida && $fechaValida->format('Y-m-d') === $fecha;
     }
 }

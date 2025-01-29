@@ -15,12 +15,14 @@ if (empty($_SESSION['usuarioMiAplicacion'])) {
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['detalle'])) {
     $_SESSION['paginaEnCurso'] = 'detalle';
+    $_SESSION['paginaAnterior'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
 
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['error'])) {
+    $_SESSION['paginaAnterior'] = 'inicioPrivado';
     $consulta = "SELECT * FRPM T04_DepartamentosActivos";
     DBPDO::ejecutarConsulta($consulta);
     exit();
@@ -29,6 +31,7 @@ if (isset($_REQUEST['error'])) {
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['rest'])) {
     $_SESSION['paginaEnCurso'] = 'api';
+    $_SESSION['paginaAnterior'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
@@ -36,6 +39,7 @@ if (isset($_REQUEST['rest'])) {
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['mtodepartamentos'])) {
     $_SESSION['paginaEnCurso'] = 'wip';
+    $_SESSION['paginaAnterior'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }

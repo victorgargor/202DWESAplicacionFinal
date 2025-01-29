@@ -26,10 +26,6 @@
     <script src="webroot/js/nasa.js"></script>
 </div>
 
-<!-- Incluye el archivo JS -->
-<script src="webroot/js/nasa.js"></script>
-
-
 <!-- Sección 2: AEMET API -->
 <div class="api-section">
 

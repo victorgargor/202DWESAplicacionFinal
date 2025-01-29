@@ -17,9 +17,8 @@ $aVistaRest = [
 ];
 
 // Se establece la fecha actual como la fecha en curso para la NASA (por defecto)
-if (!isset($_SESSION['nasaFechaEnCurso'])) {
-    $_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
-}
+$_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
+
 
 // Verifica si se ha enviado una fecha específica para la foto de la NASA desde el formulario o la llamada AJAX
 if (isset($_POST['fechaNasa'])) {
@@ -32,7 +31,7 @@ try {
     $oFotoNasaEnCurso = REST::apiNasa($_SESSION['nasaFechaEnCurso']);
 
     // Verifica que la respuesta no sea null antes de intentar acceder a sus métodos
-    if ($oFotoNasaEnCurso !== null) {
+    if ($oFotoNasaEnCurso && is_object($oFotoNasaEnCurso)) {
         // Almacena el título de la foto obtenida de la API de la NASA
         $arrayVista['nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
 
@@ -54,6 +53,7 @@ try {
     // Guardamos el objeto ErrorApp en la sesión
     $_SESSION['error'] = $error;
     $_SESSION['paginaEnCurso'] = 'error';
+    unset($_SESSION['nasaFechaEnCurso']);
 
     header('Location: indexLoginLogoff.php');
     exit();
@@ -61,4 +61,3 @@ try {
 
 // Incluyo la vista
 require_once $aVistas['layout'];
-

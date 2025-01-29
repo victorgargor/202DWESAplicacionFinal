@@ -22,7 +22,7 @@ class DBPDO implements DB {
             // Guardamos en la sesion la pagina actual y le asignamos la de error
             $_SESSION['paginaEnCurso'] = 'error';
             // Almaceno un objeto de la clase Error
-            $_SESSION['error'] = new ErrorApp($excepcion->getCode(), $excepcion->getMessage(), $excepcion->getFile(), $excepcion->getLine());          
+            $_SESSION['error'] = new ErrorApp($excepcion->getCode(), $excepcion->getMessage(), $excepcion->getFile(), $excepcion->getLine(), $_SESSION['paginaAnterior']);          
             //Redirige al usuario al index
             header('Location: indexLoginLogoff.php');
             exit();           

@@ -8,7 +8,7 @@
 // Si se pulsa el botón volver
 if (isset($_REQUEST['volver'])) {
     $_SESSION['paginaEnCurso'] = $_SESSION['paginaAnterior'];
-    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    header('Location: indexLoginLogoff.php');
     exit();
 }
 
