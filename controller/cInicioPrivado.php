@@ -38,7 +38,7 @@ if (isset($_REQUEST['rest'])) {
 
 // Si se pulsa el botón de detalle
 if (isset($_REQUEST['mtodepartamentos'])) {
-    $_SESSION['paginaEnCurso'] = 'wip';
+    $_SESSION['paginaEnCurso'] = 'mtodep';
     $_SESSION['paginaAnterior'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();

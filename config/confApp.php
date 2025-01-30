@@ -15,6 +15,8 @@ require_once 'model/UsuarioDB.php';
 require_once 'model/UsuarioPDO.php';
 require_once 'model/REST.php';
 require_once 'model/FotoNasa.php';
+require_once 'model/Departamento.php';
+require_once 'model/DepartamentoPDO.php';
 
 // Creamos un array para los controladores
 $aControladores = [
@@ -29,7 +31,8 @@ $aControladores = [
     'miCuenta' => 'controller/cMiCuenta.php',
     'borrarCuenta' => 'controller/cborrarCuenta.php',
     'wip' => 'controller/cWIP.php',
-    'error' => 'controller/cErrorApp.php'
+    'error' => 'controller/cErrorApp.php',
+    'mtodep' => 'controller/cMtoDepartamentos.php'
 ];
 
 // Creamos un array para las vistas
@@ -46,5 +49,6 @@ $aVistas = [
     'miCuenta' => 'view/vMiCuenta.php',
     'borrarCuenta' => 'view/vborrarCuenta.php',
     'wip' => 'view/vWIP.php',
-    'error' => 'view/vErrorApp.php'
+    'error' => 'view/vErrorApp.php',
+    'mtodep' => 'view/vMtoDepartamentos.php'
 ];

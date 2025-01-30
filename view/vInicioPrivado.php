@@ -33,7 +33,7 @@
     <form action="" method="POST">
         <input type="submit" name="mtodepartamentos" value="MToDepartamentos">
     </form>
-     <form action="" method="POST">
+    <form action="" method="POST">
         <input type="submit" name="rest" value="REST">
     </form>
 </body>

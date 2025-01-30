@@ -128,10 +128,10 @@ body {
 .pdf-container canvas {
     width: 100%;                 /* El canvas ocupará el 100% del ancho del contenedor */
     height: 100%;                /* El canvas ocupará el 100% de la altura */
-    display: block;  
+    display: block;
 }
 
-.nombre-pdf { 
+.nombre-pdf {
     position: relative;
     top: 80px;
     left: -225px;
@@ -179,7 +179,7 @@ body {
     position: fixed;
     top: -7px;
     left: 7%;
-    z-index: 3333; 
+    z-index: 3333;
 }
 
 #mensaje-bienvenida {
@@ -392,6 +392,32 @@ input[name="iniciarsesion"]:active, input[name="registrarse"]:active {
     transform: translateY(0);
 }
 
+button[name="buscar"] {
+    ;
+    background-color: #ffffff;
+    color: #24292f;
+    font-size: 14px;
+    padding: 8px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100px;
+}
+
+button[name="buscar"]:hover {
+    background-color: #0366d6;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+button[name="buscar"]:active {
+    background-color: #005bb5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
 input[name="registrarse"] {
     background-color: #ffffff;
     color: #24292f;
@@ -576,17 +602,31 @@ footer img {
     max-width: 400px; /* Limitar el ancho máximo del formulario */
 }
 
-.login .form-group {
+#descripcion {
+    height: 40px;
+    width: 65%;
+}
+
+.busqueda {
+    line-height: 125px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 150px;
+}
+
+.busqueda, .login .form-group {
     margin-bottom: 15px;
 }
 
-.login .form-group label {
+.busqueda, .login .form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.login .form-group input {
+.busqueda, .login .form-group input {
     width: 100%;
     padding: 10px;
     border: 1px solid #e1e4e8;
@@ -594,7 +634,7 @@ footer img {
     box-sizing: border-box;
 }
 
-.login .form-group input:focus {
+.busqueda, .login .form-group input:focus {
     border-color: #0366d6;
     outline: none;
 }
@@ -825,7 +865,7 @@ footer img {
 }
 
 @media (max-width: 768px) {
-    
+
     header {
         padding: 10px;
     }
