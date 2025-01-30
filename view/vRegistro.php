@@ -7,12 +7,12 @@
 
 <form class="registro" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" novalidate>
     <div class="form-group">
-        <label for="codUsuario">Código de Usuario:</label><br>
+        <label for="codUsuario">Usuario:</label><br>
         <input type="text" id="codigo" name="codigo" style="background-color: lightyellow" required>
     </div>
     <div class="form-group">
         <label for="password">Contraseña:</label><br>
-        <input type="password" id="password" name="T01_Password" style="background-color: lightyellow" required>
+        <input type="password" id="password" name="password" style="background-color: lightyellow" required>
     </div>
     <div class="form-group">
         <label for="descripcion">Descripción:</label><br>

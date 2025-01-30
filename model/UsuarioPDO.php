@@ -5,64 +5,85 @@
  * @version Fecha de última modificación 09/01/2025
  */
 class UsuarioPDO implements UsuarioDB {
-
+    
+    /**
+    * @author Jesús Ferreras González, Víctor García Gordón
+    * 
+    */
     #[\Override]
     public static function validarUsuario($codUsuario, $password) {
-        // Inicializamos un objeto Usuario
-        $oUsuario = null;
-
-        // Concatenamos el código del usuario con la contraseña para hacer el hash
-        $passwordHashed = hash('sha256', $codUsuario . $password);
-
+        $parametros = [
+            ':codUsuario' => $codUsuario,
+            ':password' => $codUsuario . $password
+        ];
+        // Consulta SQL para obtener el usuario por código y contraseña
         $sql = <<<SQL
-        SELECT * FROM T01_Usuario 
-        WHERE T01_CodUsuario = '{$codUsuario}' 
-        AND T01_Password = '{$passwordHashed}';
+            SELECT * FROM T01_Usuario 
+            WHERE T01_CodUsuario = :codUsuario 
+            AND T01_Password = sha2(:password, 256);
         SQL;
 
-        // Ejecutar la consulta
-        $resultadoConsulta = DBPDO::ejecutarConsulta($sql);
+        // Ejecutamos la consulta
+        $resultadoConsulta = DBPDO::ejecutarConsulta($sql, $parametros);
 
-        // Verificar si se encuentra el usuario
+        // Verificamos si el usuario existe
         if ($resultadoConsulta->rowCount() > 0) {
             $oResultadoConsulta = $resultadoConsulta->fetchObject();
 
-            if ($oResultadoConsulta) {
-                $oUsuario = new Usuario(
-                        $oResultadoConsulta->T01_CodUsuario,
-                        $oResultadoConsulta->T01_Password,
-                        $oResultadoConsulta->T01_DescUsuario,
-                        $oResultadoConsulta->T01_NumConexiones,
-                        $oResultadoConsulta->T01_FechaHoraUltimaConexion,
-                        $oResultadoConsulta->T01_FechaHoraUltimaConexionAnterior = null,
-                        $oResultadoConsulta->T01_Perfil
-                );
-                return $oUsuario; // Usuario encontrado
-            }
-        }
-        return null; // Si no se encuentra el usuario, retornamos null
-    }
-
-    public static function altaUsuario($usuario) {
-        // Accede a los métodos del objeto Usuario
-        $codUsuario = $usuario->getCodUsuario();
-        $password = $usuario->getPassword();
-        $descUsuario = $usuario->getDescUsuario();
-
-        // Encriptamos la contraseña antes de insertarla
-        $passwordHashed = hash('sha256', $codUsuario . $password);  // Encriptamos la contraseña con SHA-256
-        // Sentencia SQL con los valores directamente en la consulta
-        $sql = "INSERT INTO T01_Usuario (T01_CodUsuario, T01_Password, T01_DescUsuario, T01_NumConexiones, T01_FechaHoraUltimaConexion, T01_Perfil)
-            VALUES ('{$codUsuario}', '{$passwordHashed}', '{$descUsuario}', 0, NULL, 'usuario');";
-
-        // Ejecutamos la consulta
-        $resultado = DBPDO::ejecutarConsulta($sql);
-
-        if ($resultado) {
-            return true;
+            return new Usuario(
+                    $oResultadoConsulta->T01_CodUsuario,
+                    $oResultadoConsulta->T01_Password,
+                    $oResultadoConsulta->T01_DescUsuario,
+                    $oResultadoConsulta->T01_NumConexiones,
+                    $oResultadoConsulta->T01_FechaHoraUltimaConexion,
+                    isset($oResultadoConsulta->T01_FechaHoraUltimaConexionAnterior) ? $oResultadoConsulta->T01_FechaHoraUltimaConexionAnterior : null,
+                    $oResultadoConsulta->T01_Perfil,
+                    $oResultadoConsulta->T01_ImagenUsuario
+            );
         } else {
             return false;
         }
+    }
+    
+    /**
+    * @author Jesús Ferreras González, Víctor García Gordón
+    * 
+    */
+    public static function altaUsuario($codUsuario, $password, $descUsuario, $imagenUsuario = null) {
+        $parametros = [
+            ':codUsuario' => $codUsuario,
+            ':password' => $codUsuario . $password,
+            ':descUsuario' => $descUsuario,
+            ':imagenUsuario' => $imagenUsuario
+        ];
+        // Sentencia SQL para insertar el nuevo usuario en la base de datos
+        $sql = <<<SQL
+            INSERT INTO T01_Usuario (T01_CodUsuario, T01_Password, T01_DescUsuario, T01_ImagenUsuario)
+            VALUES (:codUsuario, sha2(:password, 256), :descUsuario, :imagenUsuario);
+        SQL;
+
+        // Ejecutamos la consulta
+        $resultado = DBPDO::ejecutarConsulta($sql, $parametros);
+
+        $sql2 = <<<FIN
+            SELECT * FROM T01_Usuario
+                WHERE T01_CodUsuario = '$codUsuario'
+            ;
+        FIN;
+
+        $datos = DBPDO::ejecutarConsulta($sql2)->fetchObject();
+
+        return new Usuario(
+                $datos->T01_CodUsuario,
+                $datos->T01_Password,
+                $datos->T01_DescUsuario,
+                $datos->T01_NumConexiones,
+                new DateTime($datos->T01_FechaHoraUltimaConexion),
+                null,
+                $datos->T01_Perfil,
+                $datos->T01_ImagenUsuario,
+                null
+        );
     }
 
     public static function modificarUsuario() {
@@ -87,11 +108,7 @@ class UsuarioPDO implements UsuarioDB {
         $registro = $resultadoConsulta->fetch(PDO::FETCH_ASSOC);
 
         // Si el contador es mayor que 0, significa que el código ya existe
-        if ($registro['COUNT(*)'] > 0) {
-            return true; // El código ya existe
-        } else {
-            return false; // El código no existe
-        }
+        return $registro['COUNT(*)'] > 0;
     }
 
     public static function registrarUltimaConexion($codUsuario) {
@@ -118,7 +135,8 @@ class UsuarioPDO implements UsuarioDB {
                     $oResultadoConsulta->T01_NumConexiones,
                     $oResultadoConsulta->T01_FechaHoraUltimaConexion,
                     isset($oResultadoConsulta->T01_FechaHoraUltimaConexionAnterior) ? $oResultadoConsulta->T01_FechaHoraUltimaConexionAnterior : null,
-                    $oResultadoConsulta->T01_Perfil
+                    $oResultadoConsulta->T01_Perfil,
+                    $oResultadoConsulta->T01_ImagenUsuario
             );
 
             // Actualizar el número de accesos y la fecha de la última conexión anterior

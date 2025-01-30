@@ -14,7 +14,7 @@ class DBPDO implements DB {
             // Prepara la consulta
             $consultaPreparada = $miDB->prepare($sentenciaSQL);          
             // Ejecuta la consulta       
-            $consultaPreparada->execute();          
+            $consultaPreparada->execute($parametros);          
             // Devuelvo el resultado
             return $consultaPreparada;
         } catch (PDOException $excepcion) {
