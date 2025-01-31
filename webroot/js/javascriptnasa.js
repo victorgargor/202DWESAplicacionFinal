@@ -43,14 +43,5 @@ function obtenerFoto(fecha) {
             });
 }
 
-// Evento para cambiar la foto cuando se selecciona una fecha
-document.getElementById("fecha").addEventListener("change", function () {
-    const fechaSeleccionada = this.value;
-
-    if (fechaSeleccionada) {
-        obtenerFoto(fechaSeleccionada);
-    }
-});
-
 // Obtener la foto del día actual al cargar la página
 obtenerFoto(new Date().toISOString().split('T')[0]); // Formato YYYY-MM-DD

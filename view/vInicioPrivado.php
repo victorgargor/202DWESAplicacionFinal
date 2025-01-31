@@ -37,18 +37,13 @@
             <input type="submit" name="rest" value="REST">
         </form>
 
-        <h1 style="text-align: center; font-size: 2em; color: #2d2d2d; margin-top: 30px;">Foto del Día de la NASA</h1>
+        <h1 style="text-align: center; font-size: 2em; color: #2d2d2d; margin-top: 30px;">Foto de la NASA con JavaScript</h1>
 
-      
         <div style="text-align: center; margin-top: 20px;">
-          
-            <label for="fecha" style="font-size: 1.1em; margin-right: 10px; color: #333;">Selecciona una fecha:</label>
-            <input type="date" id="fecha" name="fecha" style="padding: 8px; font-size: 1em; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 20px;">
-
             <div id="error-message" style="color: red; font-weight: bold; margin-top: 20px;"></div>
 
             <div id="foto-container" style="display: flex; justify-content: center; margin-top: 20px;">
-                <img id="foto" src="" alt="Foto del día" style="width: 200px; height: 200px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+                <img id="foto" src="" alt="Foto del día" style="width: 210px; height: 210px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-top: 20px;">
             </div>
 
             <div id="descripcion-container" style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 20px;">

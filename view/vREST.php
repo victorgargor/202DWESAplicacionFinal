@@ -10,15 +10,17 @@
         <fieldset class="nasa">
             <legend><h2>Foto del día de la NASA</h2></legend>
             <input type="date" id="fechaNasa" name="fechaNasa" value="<?php echo isset($_SESSION['nasaFechaEnCurso']) ? $_SESSION['nasaFechaEnCurso'] : date("Y-m-d") ?>" max="<?php echo date('Y-m-d'); ?>" min="1999-01-01">
+            
             <p><b>Título de la Imagen:</b> <?php echo isset($aVistaRest['nasa']['titulo']) ? $aVistaRest['nasa']['titulo'] : 'Título no disponible'; ?></p>
-            <?php if (isset($aVistaRest['nasa']['foto'])) { ?>
-                <img id="nasaImage" src="<?php echo $aVistaRest['nasa']['foto']; ?>" width="300px" height="300px">
+            
+            <?php if (isset($aVistaRest['nasa']['foto']) && !empty($aVistaRest['nasa']['foto'])) { ?>
+                <img id="nasaImage" src="<?php echo $aVistaRest['nasa']['foto']; ?>" width="300px" height="300px" alt="Imagen del día de la NASA">
             <?php } else { ?>
                 <p>Imagen no disponible</p>
             <?php } ?>
             <hr>
             <p><b>Instrucciones de uso:</b> <a target="blank" href=" https://api.nasa.gov"> https://api.nasa.gov</a></p>
-            <p><b>URL:</b> https://api.nasa.gov/planetary/apod?api_key=API_KEY&date=$fecha</p>
+            <p><b>URL:</b> https://api.nasa.gov/planetary/apod?api_key=API_KEY&date=<?php echo $_SESSION['nasaFechaEnCurso']; ?></p>
             <p><b>Parámetros:</b> Fecha</p>
             <p><b>Método:</b> GET</p>
         </fieldset>

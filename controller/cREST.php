@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
  * @version Fecha de última modificación 28/01/2025
  */
-
 // Si se pulsa volver
 if (isset($_REQUEST['volver'])) {
     $_SESSION['paginaEnCurso'] = 'inicioPrivado';
@@ -19,7 +19,6 @@ $aVistaRest = [
 // Se establece la fecha actual como la fecha en curso para la NASA (por defecto)
 $_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
 
-
 // Verifica si se ha enviado una fecha específica para la foto de la NASA desde el formulario o la llamada AJAX
 if (isset($_POST['fechaNasa'])) {
     // Si se ha enviado una fecha, la asigna como la nueva fecha en curso para la NASA
@@ -33,10 +32,10 @@ try {
     // Verifica que la respuesta no sea null antes de intentar acceder a sus métodos
     if ($oFotoNasaEnCurso && is_object($oFotoNasaEnCurso)) {
         // Almacena el título de la foto obtenida de la API de la NASA
-        $arrayVista['nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
+        $aVistaRest['nasa']['titulo'] = $oFotoNasaEnCurso->getTitulo();
 
         // Almacena la URL de la foto obtenida de la API de la NASA
-        $arrayVista['nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
+        $aVistaRest['nasa']['foto'] = $oFotoNasaEnCurso->getFoto();
     } else {
         // Si la respuesta es null, lanzamos un error
         throw new Exception('No se pudo obtener la información de la NASA.');
