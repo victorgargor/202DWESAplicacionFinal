@@ -5,8 +5,13 @@
  */
 
 if (isset($_REQUEST['volver'])) {
-    // Establece la variable de sesión 'paginaEnCurso' en 'inicioPublico'
     $_SESSION['paginaEnCurso'] = 'inicioPublico';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
+
+if (isset($_REQUEST['registrarse'])) {
+    $_SESSION['paginaEnCurso'] = 'registro';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
@@ -19,11 +24,10 @@ $aErrores = [
     'password' => ''
 ];
 
-if (isset($_REQUEST['iniciarsesion'])) { 
-    // Guardamos en la sesión la página anterior y le ponemos el login
+if (isset($_REQUEST['iniciarsesion'])) {
     $_SESSION['paginaAnterior'] = 'login';
 
-    // Validamos si el usuario existe y es oUsuarioActivo
+    // Validar si el usuario existe y la contraseña es correcta
     $oUsuarioActivo = UsuarioPDO::validarUsuario($_REQUEST['usuario'], $_REQUEST['password']);
 
     // Comprobamos si '$oUsuarioActivo' no está declarado o es 'null'
@@ -31,7 +35,7 @@ if (isset($_REQUEST['iniciarsesion'])) {
         $entradaOK = false;
     }
 
-    // Realizamos las validaciones de los campos de formulario
+    // Realizamos las validaciones de los campos del formulario
     $aErrores = [
         'usuario' => (!$oUsuarioActivo) ? 'Error de autentificación.' : validacionFormularios::comprobarAlfaNumerico($_REQUEST['usuario'], 32, 4, 1),
         'password' => (!$oUsuarioActivo) ? 'Error de autentificación.' : validacionFormularios::validarPassword($_REQUEST['password'], 32, 4, 2, 1)
@@ -66,4 +70,3 @@ if ($entradaOK) {
     // Si la entrada no es correcta, recargamos la vista del login con los errores
     require_once $aVistas['layout'];
 }
-

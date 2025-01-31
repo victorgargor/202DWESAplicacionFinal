@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Historial de cambios - Aplicación Final Víctor García Gordón</title>
+        <link>https://victorgargon.informatica.ieslossauces.es/202DWESAplicacionFinal/indexLoginLogoff.php</link>
+        <description>Últimos cambios y actualizaciones</description>
+        <language>es</language>
+        
+        <item>
+            <title>Versión 1.0.1</title>
+            <link>https://victorgargon.informatica.ieslossauces.es/202DWESAplicacionFinal/indexLoginLogoff.php</link>
+            <description>
+                🔹 Correción API Nasa 
+                🔹 Añadir RSS
+                🔹 Registrarse
+            </description>
+            <pubDate>Tue, 29 Jan 2025 10:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

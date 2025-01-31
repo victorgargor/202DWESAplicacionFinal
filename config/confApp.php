@@ -13,6 +13,10 @@ require_once 'model/ErrorApp.php';
 require_once 'model/Usuario.php';
 require_once 'model/UsuarioDB.php';
 require_once 'model/UsuarioPDO.php';
+require_once 'model/REST.php';
+require_once 'model/FotoNasa.php';
+require_once 'model/Departamento.php';
+require_once 'model/DepartamentoPDO.php';
 
 // Creamos un array para los controladores
 $aControladores = [
@@ -20,13 +24,15 @@ $aControladores = [
     'login' => 'controller/cLogin.php',
     'detalle' => 'controller/cDetalle.php',
     'inicioPrivado' => 'controller/cInicioPrivado.php',
+    'api' => 'controller/cREST.php',
     'tecnologias' => 'controller/cTecnologias.php',
     'rss' => 'controller/cRSS.php',
     'registro' => 'controller/cRegistro.php',
     'miCuenta' => 'controller/cMiCuenta.php',
     'borrarCuenta' => 'controller/cborrarCuenta.php',
     'wip' => 'controller/cWIP.php',
-    'error' => 'controller/cErrorApp.php'
+    'error' => 'controller/cErrorApp.php',
+    'mtodep' => 'controller/cMtoDepartamentos.php'
 ];
 
 // Creamos un array para las vistas
@@ -36,11 +42,13 @@ $aVistas = [
     'login' => 'view/vLogin.php',
     'detalle' => 'view/vDetalle.php',
     'inicioPrivado' => 'view/vInicioPrivado.php',
+    'api' => 'view/vREST.php',
     'tecnologias' => 'view/vTecnologias.php',
     'rss' => 'view/vRSS.php',
     'registro' => 'view/vRegistro.php',
     'miCuenta' => 'view/vMiCuenta.php',
     'borrarCuenta' => 'view/vborrarCuenta.php',
     'wip' => 'view/vWIP.php',
-    'error' => 'view/vErrorApp.php'
+    'error' => 'view/vErrorApp.php',
+    'mtodep' => 'view/vMtoDepartamentos.php'
 ];
