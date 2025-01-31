@@ -4,6 +4,9 @@
  * @version Fecha de última modificación 23/01/2025 
  */
 ?>
+<header>      
+    <h1 id="inicio">REST</h1>
+</header>
 <div class="api-container">
     <!-- Sección 1: NASA API -->
     <div class="api-section nasa-section">

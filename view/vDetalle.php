@@ -4,7 +4,9 @@
  * @version Fecha de última modificación 14/01/2025
  */
 ?>
-
+<header>      
+    <h1 id="inicio">Detalle</h1>
+</header>
 <div class="detalle">
     <br/>
     <form method="POST">

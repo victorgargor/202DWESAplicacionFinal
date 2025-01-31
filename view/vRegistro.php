@@ -4,7 +4,9 @@
  * @version Fecha de última modificación 29/01/2025 
  */
 ?>
-
+<header>      
+    <h1 id="inicio">Registro</h1>
+</header>
 <form class="registro" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" novalidate>
     <div class="form-group">
         <label for="codUsuario">Usuario:</label><br>

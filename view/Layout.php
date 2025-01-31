@@ -13,9 +13,6 @@
         <title>Víctor García Gordón</title>
     </head>
     <body>
-        <header>      
-            <h1 id="inicio">APLICACIÓN FINAL</h1>
-        </header>
         <main>  
             <p id="logo">
                 <img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/>

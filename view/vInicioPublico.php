@@ -4,7 +4,9 @@
  * @version Fecha de última modificación 08/01/2025
  */
 ?>
-
+<header>      
+    <h1 id="inicio">Inicio Público</h1>
+</header>
 <form>
     <input type="submit" name="login" value="Login">
 </form>
