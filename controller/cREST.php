@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Borja Nuñez Refoyo, reutilizado y mejorado por Víctor García Gordón
  * @version Fecha de última modificación 28/01/2025
@@ -57,6 +56,19 @@ try {
     header('Location: indexLoginLogoff.php');
     exit();
 }
+
+// Si se envía un formulario con la categoría
+if (isset($_POST['categoria'])) {
+    // Obtiene la categoría seleccionada
+    $categoria = $_POST['categoria'];
+    $bromaChuck = REST::apiChuckNorris($categoria);
+} else {
+    // Si no, obtiene una broma aleatoria
+    $bromaChuck = REST::apiChuckNorris();
+}
+
+// Guarda la broma en el array de vista
+$aVistaRest['chuckNorris']['broma'] = $bromaChuck;
 
 // Incluyo la vista
 require_once $aVistas['layout'];

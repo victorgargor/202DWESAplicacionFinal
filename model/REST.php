@@ -41,4 +41,32 @@ class REST {
             exit();
         }
     }
+    
+    // Método para obtener una broma de Chuck Norris
+    public static function apiChuckNorris($categoria = null) {
+        try {
+            // Si se pasa una categoría, obtenemos una broma de esa categoría.
+            if ($categoria) {
+                return ChuckNorrisAPI::obtenerBromaPorCategoria($categoria);
+            } else {
+                // Si no, obtenemos una broma aleatoria.
+                return ChuckNorrisAPI::obtenerBromaAleatoria();
+            }
+        } catch (Exception $e) {
+            // Manejo del error
+            $error = new ErrorApp(
+                    $e->getCode(),
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine(),
+                    $_SESSION['paginaAnterior']
+            );
+            // Guardamos el objeto ErrorApp en la sesión
+            $_SESSION['error'] = $error;
+            $_SESSION['paginaEnCurso'] = 'error';
+
+            header('Location: indexLoginLogoff.php');
+            exit();
+        }
+    }
 }

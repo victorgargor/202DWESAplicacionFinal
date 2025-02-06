@@ -17,6 +17,7 @@ require_once 'model/REST.php';
 require_once 'model/FotoNasa.php';
 require_once 'model/Departamento.php';
 require_once 'model/DepartamentoPDO.php';
+require_once 'model/ChuckNorrisAPI.php';
 
 // Creamos un array para los controladores
 $aControladores = [
