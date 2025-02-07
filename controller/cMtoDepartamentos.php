@@ -1,26 +1,40 @@
 <?php
 
 /**
+ * Controlador de mantenimiento de departamentos.
+ * 
+ * Este script permite buscar departamentos por su descripción y muestra los resultados 
+ * en la vista correspondiente.
+ * 
  * @author Víctor García Gordón
- * @version Fecha de última modificación 30/01/2025
+ * @version 30/01/2025
  */
-// Redirige a la página del programa si se pulsa el botón
+
+/**
+ * Si el usuario pulsa "Volver", se redirige a la página de inicio privado.
+ */
 if (isset($_REQUEST['volver'])) {
     $_SESSION['paginaEnCurso'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
 
-// Si se ha presionado el botón "Buscar"
+/**
+ * @var string $descripcion Almacena la descripción introducida por el usuario para la búsqueda.
+ * @var array $departamentos Contiene la lista de departamentos encontrados.
+ */
 if (isset($_REQUEST['buscar'])) {
+    // Obtener la descripción ingresada por el usuario
     $descripcion = $_REQUEST['descripcion'];
 
-    // Llamamos a la función buscaDepartamentosPorDesc de DepartamentoPDO
+    // Buscar departamentos con la descripción proporcionada
     $departamentos = DepartamentoPDO::buscaDepartamentosPorDesc($descripcion);
 } else {
-    // Si no se ha buscado, mostramos todos los departamentos
+    // Si no se ha realizado una búsqueda, mostrar todos los departamentos
     $departamentos = DepartamentoPDO::buscaDepartamentosPorDesc('');
 }
 
-// Cargo la vMtoDepartamentos
+/**
+ * Se carga la vista de mantenimiento de departamentos.
+ */
 require_once $aVistas['layout'];
