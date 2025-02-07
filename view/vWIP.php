@@ -4,6 +4,9 @@
  * @version Fecha de última modificación 15/01/2025
  */
 ?>
+<header>      
+    <h1 id="inicio">WIP</h1>
+</header>
 <div class="contenedor">
     <div class="contenido">
         <h1 id="h1">Estamos trabajando en ello</h1>

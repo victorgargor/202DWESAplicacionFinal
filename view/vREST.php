@@ -4,6 +4,9 @@
  * @version Fecha de última modificación 23/01/2025 
  */
 ?>
+<header>      
+    <h1 id="inicio">REST</h1>
+</header>
 <div class="api-container">
     <!-- Sección 1: NASA API -->
     <div class="api-section nasa-section">
@@ -28,9 +31,26 @@
     <script src="webroot/js/nasa.js"></script>
 </div>
 
-<!-- Sección 2: AEMET API -->
-<div class="api-section">
+<!-- Sección 2: CHUCK NORRIS API -->
+<div class="api-section chuck-section">
+    <fieldset class="chuck-norris">
+        <legend><h2>Broma de Chuck Norris</h2></legend>
+        <!-- Mostrar la broma de Chuck Norris -->
+        <p><b>Broma:</b> <?php echo isset($aVistaRest['chuckNorris']['broma']) ? $aVistaRest['chuckNorris']['broma'] : 'Broma no disponible'; ?></p>
 
+        <!-- Opción para elegir categoría de la broma -->
+        <form method="post">
+            <label for="categoria">Elige una categoría:</label>
+            <select id="categoria" name="categoria">
+                <option value="dev">Desarrolladores</option>
+                <option value="animal">Animales</option>
+                <option value="celebrity">Celebridades</option>
+                <option value="extranet">Extranets</option>
+            </select>
+            <input type="submit" value="Obtener Broma">
+        </form>
+        <p><b>Instrucciones de uso:</b> <a target="blank" href="https://api.chucknorris.io/"> https://api.chucknorris.io/</a></p>
+    </fieldset>
 </div>
 
 <!-- Sección 3: Vacía -->

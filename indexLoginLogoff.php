@@ -1,23 +1,38 @@
 <?php
 /**
+ * Archivo principal de control de la aplicación.
+ * Inicializa las configuraciones necesarias, maneja la sesión y carga la página actual.
+ * 
  * @author Víctor García Gordón
  * @version Fecha de última modificación 19/12/2024
  */
 
-// Incluyo la configuracion de la App
+// Incluye la configuración de la aplicación
 require_once 'config/confApp.php';
 
-// Incluyo la configuracion de la DB
+/**
+ * Incluye la configuración de la base de datos.
+ * Este archivo contiene las credenciales y configuraciones necesarias para la conexión a la base de datos.
+ */
 require_once 'config/confDB.php'; 
 
-// Creo la sesión o recupero la anterior
+/**
+ * Inicia la sesión o recupera la sesión existente.
+ * La sesión es utilizada para mantener el estado de la aplicación entre peticiones.
+ */
 session_start(); 
 
-// Si no hay una pagina en curso dentro de la sesión
-if(!isset($_SESSION['paginaEnCurso'])){ 
-    // Asigno a la pagina en curso la pagina de InicioPublico
+/**
+ * Verifica si no hay una página en curso en la sesión.
+ * Si no existe, asigna la página de inicio pública como la página en curso.
+ */
+if (!isset($_SESSION['paginaEnCurso'])) { 
     $_SESSION['paginaEnCurso'] = 'inicioPublico'; 
 }
 
-// Cargo la pagina 
+/**
+ * Carga el controlador correspondiente según la página en curso.
+ * La variable $_SESSION['paginaEnCurso'] contiene el nombre del controlador a cargar.
+ */
 require_once $aControladores[$_SESSION['paginaEnCurso']]; 
+

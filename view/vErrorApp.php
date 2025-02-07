@@ -4,7 +4,9 @@
  * @version Fecha de última modificación 10/01/2025 
  */
 ?>
-
+<header>      
+    <h1 id="inicio">Error</h1>
+</header>
 <div class="container">
     <div class="text-center">
         <h1 class="error-header">¡ERROR!</h1>
