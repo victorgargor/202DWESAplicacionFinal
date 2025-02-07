@@ -8,7 +8,9 @@ if (isset($_SESSION['mensaje'])):
     <p class="mensaje-exito"><?= $_SESSION['mensaje'] ?></p>
     <?php unset($_SESSION['mensaje']); ?> <!-- Eliminar el mensaje después de mostrarlo -->
 <?php endif; ?>
-
+<header>      
+    <h1 id="inicio">Login</h1>
+</header>
 <form class="login" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" novalidate>
     <div class="form-group">
         <label for="usuario">Usuario:</label>

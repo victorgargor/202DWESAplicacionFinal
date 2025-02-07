@@ -4,6 +4,9 @@
  * @version Fecha de última modificación 30/01/2025
  */
 ?>
+<header>      
+    <h1 id="inicio">Mto Departamentos</h1>
+</header>
 <!-- Formulario de búsqueda -->
 <form class="busqueda" method="post">
     <div class="form-group">

@@ -13,9 +13,6 @@
         <title>Víctor García Gordón</title>
     </head>
     <body>
-        <header>      
-            <h1 id="inicio">APLICACIÓN FINAL</h1>
-        </header>
         <main>  
             <p id="logo">
                 <img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/>
@@ -28,7 +25,7 @@
             <div>
                 <a><img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/></a>
                 <a href="/index.html">Víctor García Gordón</a>
-                <a href="doc/index.html">PHPDocumentor</a>
+                <a href="doc/phpdoc/index.html">PHPDocumentor</a>
                 <a target="blank" href="doc/curriculum.pdf"><img src="webroot/media/images/curriculum.jpg" alt="curriculum"></a>
                 <a target="blank" href="https://github.com/victorgargor/202DWESAplicacionFinal"><img src="webroot/media/images/github.png" alt="github"></a>
                 <a target="blank" href="https://github.com">Web Imitada</a>

@@ -1,12 +1,15 @@
 <?php
 /**
+ * Archivo de configuración y enrutamiento de la aplicación.
+ * 
  * @author Víctor García Gordón
- * @version Fecha de última modificación 19/12/2024
+ * @version 19/12/2024
  */
 
-// Importamos la libreria de validacion de formularios
+// Importamos la librería de validación de formularios
 require_once 'core/lValidacionFormularios.php';
 
+// Importamos los modelos de la aplicación
 require_once 'model/DB.php';
 require_once 'model/DBPDO.php';
 require_once 'model/ErrorApp.php';
@@ -17,8 +20,16 @@ require_once 'model/REST.php';
 require_once 'model/FotoNasa.php';
 require_once 'model/Departamento.php';
 require_once 'model/DepartamentoPDO.php';
+require_once 'model/ChuckNorrisAPI.php';
 
-// Creamos un array para los controladores
+/**
+ * Array de controladores de la aplicación.
+ * 
+ * Este array asocia las claves de los módulos con los archivos correspondientes
+ * dentro de la carpeta `controller/`.
+ * 
+ * @var array<string, string> $aControladores
+ */
 $aControladores = [
     'inicioPublico' => 'controller/cInicioPublico.php',
     'login' => 'controller/cLogin.php',
@@ -35,7 +46,13 @@ $aControladores = [
     'mtodep' => 'controller/cMtoDepartamentos.php'
 ];
 
-// Creamos un array para las vistas
+/**
+ * Array de vistas de la aplicación.
+ * 
+ * Contiene las rutas de los archivos de vista dentro de la carpeta `view/`.
+ * 
+ * @var array<string, string> $aVistas
+ */
 $aVistas = [
     'layout' => 'view/Layout.php',
     'inicioPublico' => 'view/vInicioPublico.php',
