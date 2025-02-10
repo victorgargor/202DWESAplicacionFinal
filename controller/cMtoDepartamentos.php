@@ -34,6 +34,14 @@ if (isset($_REQUEST['buscar'])) {
     $departamentos = DepartamentoPDO::buscaDepartamentosPorDesc('');
 }
 
+// Si el usuario selecciona un departamento para modificar
+if (isset($_POST['consultarModificar'])) {
+    $_SESSION['codDepartamentoEnCurso'] = $_POST['codDepartamento']; // Guardar en sesión
+    $_SESSION['paginaEnCurso'] = 'editar';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
+
 /**
  * Se carga la vista de mantenimiento de departamentos.
  */

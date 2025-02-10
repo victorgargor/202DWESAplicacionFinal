@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Víctor García Gordón
  * @version Fecha de última modificación 30/01/2025
@@ -15,12 +16,16 @@ class DepartamentoPDO {
     /**
      * Busca un departamento por su código.
      * 
-     * Este método aún no está implementado. Debería buscar un departamento basado en su código único.
-     * 
-     * @return Departamento|null El departamento encontrado o null si no se encuentra.
+     * @param string $codDepartamento Código del departamento a buscar.
+     * @return object|null Datos del departamento encontrado o null si no existe.
      */
-    public static function buscaDepartamentoPorCod() {
-        // Método no implementado.
+    public static function buscaDepartamentoPorCod($codDepartamento) {
+        $sentenciaSQL = "SELECT * FROM T02_Departamento WHERE T02_CodDepartamento = :codDepartamento";
+        $parametros = [':codDepartamento' => $codDepartamento];
+
+        $consultaPreparada = DBPDO::ejecutarConsulta($sentenciaSQL, $parametros);
+
+        return $consultaPreparada->fetchObject() ?: null;
     }
 
     /**
@@ -35,7 +40,7 @@ class DepartamentoPDO {
      */
     public static function buscaDepartamentosPorDesc($descripcion) {
         $departamentos = [];
-        
+
         // Consulta SQL dependiendo de si se proporciona una descripción
         if (empty($descripcion)) {
             $sentenciaSQL = "SELECT * FROM T02_Departamento";
@@ -44,15 +49,15 @@ class DepartamentoPDO {
             $sentenciaSQL = "SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE :descripcion";
             $parametros = [':descripcion' => '%' . $descripcion . '%'];
         }
-        
+
         // Ejecuta la consulta a la base de datos
         $consultaPreparada = DBPDO::ejecutarConsulta($sentenciaSQL, $parametros);
-        
+
         // Recupera todos los departamentos encontrados
         while ($oDepartamento = $consultaPreparada->fetchObject()) {
             $departamentos[] = $oDepartamento;
         }
-        
+
         return $departamentos;
     }
 
@@ -90,14 +95,26 @@ class DepartamentoPDO {
     }
 
     /**
-     * Modifica los datos de un departamento.
+     * Modifica la descripción y el volumen de negocio de un departamento.
      * 
-     * Este método aún no está implementado. Debería actualizar los datos de un departamento en la base de datos.
-     * 
-     * @return bool Devuelve true si el departamento fue modificado correctamente, false en caso contrario.
+     * @param string $codDepartamento Código del departamento a modificar.
+     * @param string $descDepartamento Nueva descripción del departamento.
+     * @param float $volumenDeNegocio Nuevo volumen de negocio.
+     * @return bool True si la actualización fue exitosa, False en caso contrario.
      */
-    public static function modificaDepartamento() {
-        // Método no implementado.
+    public static function modificaDepartamento($codDepartamento, $descDepartamento, $volumenDeNegocio) {
+        $sentenciaSQL = "UPDATE T02_Departamento 
+                     SET T02_DescDepartamento = :descDepartamento, 
+                         T02_VolumenDeNegocio = :volumenDeNegocio 
+                     WHERE T02_CodDepartamento = :codDepartamento";
+
+        $parametros = [
+            ':descDepartamento' => $descDepartamento,
+            ':volumenDeNegocio' => $volumenDeNegocio,
+            ':codDepartamento' => $codDepartamento
+        ];
+
+        return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
     }
 
     /**

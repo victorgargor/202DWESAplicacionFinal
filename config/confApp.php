@@ -43,7 +43,8 @@ $aControladores = [
     'borrarCuenta' => 'controller/cborrarCuenta.php',
     'wip' => 'controller/cWIP.php',
     'error' => 'controller/cErrorApp.php',
-    'mtodep' => 'controller/cMtoDepartamentos.php'
+    'mtodep' => 'controller/cMtoDepartamentos.php',
+    'editar' => 'controller/cConsultarModificarDepartamento.php'
 ];
 
 /**
@@ -67,5 +68,6 @@ $aVistas = [
     'borrarCuenta' => 'view/vborrarCuenta.php',
     'wip' => 'view/vWIP.php',
     'error' => 'view/vErrorApp.php',
-    'mtodep' => 'view/vMtoDepartamentos.php'
+    'mtodep' => 'view/vMtoDepartamentos.php',
+    'editar' => 'view/vConsultarModificarDepartamento.php'
 ];

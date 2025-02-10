@@ -14,6 +14,115 @@ body {
     overflow: hidden;
 }
 
+.consultar-departamento-header {
+    background-color: #f4f4f4;
+    padding: 15px;
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+}
+
+.mensaje {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.mensaje-exito {
+    color: green;
+    background-color: #e0f8e0;
+}
+
+.mensaje-error {
+    color: red;
+    background-color: #f8e0e0;
+}
+
+.consultar-departamento-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-input:read-only {
+    background-color: #f4f4f4;
+    cursor: not-allowed;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.form-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.form-button-save {
+    background-color: #ffffff;
+    color: #24292f;
+    font-size: 14px;
+    padding: 8px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.form-button-save:hover{
+    background-color: #0366d6;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.form-button-cancel {
+    background-color: #ffffff;
+    color: #24292f;
+    font-size: 14px;
+    padding: 8px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.form-button-cancel:hover{
+    background-color: #0366d6;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
 /* Contenedor principal */
 .api-container {
     width: 1200px;

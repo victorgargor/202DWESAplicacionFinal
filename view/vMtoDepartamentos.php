@@ -43,15 +43,12 @@
                         <?php echo $oDepartamento->T02_FechaBajaDepartamento ? date_format(new DateTime($oDepartamento->T02_FechaBajaDepartamento), 'd/m/Y') : 'Activo'; ?>
                     </td>
                     <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
-                        <a href="enlace1.php?id=<?php echo $oDepartamento->T02_CodDepartamento; ?>">
-                            <img src="imagen1.png" alt="Imagen 1" style="width: 20px; margin-right: 5px;">
-                        </a>
-                        <a href="enlace2.php?id=<?php echo $oDepartamento->T02_CodDepartamento; ?>">
-                            <img src="imagen2.png" alt="Imagen 2" style="width: 20px; margin-right: 5px;">
-                        </a>
-                        <a href="enlace3.php?id=<?php echo $oDepartamento->T02_CodDepartamento; ?>">
-                            <img src="imagen3.png" alt="Imagen 3" style="width: 20px;">
-                        </a>
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="codDepartamento" value="<?php echo $oDepartamento->T02_CodDepartamento; ?>">
+                            <button type="submit" name="consultarModificar" style="border: none; background: none; cursor: pointer;">
+                                <img src="webroot/media/images/editar.png" alt="editar" style="width: 20px; margin-right: 5px;">
+                            </button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
