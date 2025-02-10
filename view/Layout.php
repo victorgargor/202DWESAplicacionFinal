@@ -9,16 +9,17 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="webroot/css/aplicacion.css" type="text/css">
+        <?php if ($_SESSION['paginaEnCurso'] == 'inicioPublico') : ?>
+            <link rel="stylesheet" href="webroot/css/modelos.css" type="text/css">
+        <?php else: ?>
+            <link rel="stylesheet" href="webroot/css/aplicacion.css" type="text/css">
+        <?php endif; ?>
         <title>Víctor García Gordón</title>
     </head>
     <body>
-        <main>  
-            <p id="logo">
-                <img src="webroot/media/images/logo.jpg" alt="logo" width="50px" height="50px"/>
-            </p>    
+        <main>    
             <div class="center">
-                <?php require_once $aVistas[$_SESSION['paginaEnCurso']];?>
+                <?php require_once $aVistas[$_SESSION['paginaEnCurso']]; ?>
             </div>
         </main>
         <footer>
