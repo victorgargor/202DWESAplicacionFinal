@@ -38,6 +38,9 @@
     <div class="pdf-container">
         <iframe src="doc/UsoDeLaSesion.pdf"></iframe>
     </div>
+    <div class="pdf-container">
+        <iframe src="doc/ModeloFisicoDeDatos.png"></iframe>
+    </div>
 </section>
 <section>
     <div>
