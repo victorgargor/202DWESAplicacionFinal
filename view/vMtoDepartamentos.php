@@ -42,11 +42,17 @@
                     <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
                         <?php echo $oDepartamento->T02_FechaBajaDepartamento ? date_format(new DateTime($oDepartamento->T02_FechaBajaDepartamento), 'd/m/Y') : 'Activo'; ?>
                     </td>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
+                    <td colspan="2" style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
                         <form method="post" style="display:inline;">
                             <input type="hidden" name="codDepartamento" value="<?php echo $oDepartamento->T02_CodDepartamento; ?>">
                             <button type="submit" name="consultarModificar" style="border: none; background: none; cursor: pointer;">
-                                <img src="webroot/media/images/editar.png" alt="editar" style="width: 20px; margin-right: 5px;">
+                                <img src="webroot/media/images/editar.png" alt="editar" style="width: 40px; margin-right: 5px;">
+                            </button>
+                        </form>
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="codDepartamento" value="<?php echo $oDepartamento->T02_CodDepartamento; ?>">
+                            <button type="submit" name="ver" style="border: none; background: none; cursor: pointer;">
+                                <img src="webroot/media/images/ver.png" alt="ver" style="width: 40px; margin-right: 5px;">
                             </button>
                         </form>
                     </td>

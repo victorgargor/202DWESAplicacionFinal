@@ -42,6 +42,15 @@ if (isset($_POST['consultarModificar'])) {
     exit();
 }
 
+// Si el usuario selecciona un departamento para ver
+if (isset($_POST['ver'])) {
+    $_SESSION['codDepartamentoEnCurso'] = $_POST['codDepartamento']; // Guardar el código en sesión
+    $_SESSION['paginaEnCurso'] = 'editar'; // Mantener la misma página de "editar"
+    $modoVer = true; // Activar el modo "ver"
+    require_once $aControladores[$_SESSION['paginaEnCurso']]; // Cargar la vista correspondiente
+    exit();
+}
+
 /**
  * Se carga la vista de mantenimiento de departamentos.
  */

@@ -1,15 +1,3 @@
-<?php
-/**
- * Vista para consultar y modificar un departamento.
- * 
- * Muestra los datos del departamento seleccionado, permitiendo modificar 
- * la descripción y el volumen de negocio.
- * 
- * @author Víctor García Gordón
- * @version 10/02/2025
- */
-?>
-
 <header>      
     <h1 id="inicio">Editar Departamento</h1>
 </header>
@@ -22,7 +10,7 @@
 <?php endif; ?>
 
 <!-- Formulario de modificación -->
-<form method="post" class="consultar-departamento-form">
+<form method="post" class="consultar-departamento-form" novalidate>
     <div class="form-group">
         <label for="codigo" class="form-label">Código:</label>
         <input style="width: 100px;" type="text" id="codigo" name="codigo" value="<?= $departamento->T02_CodDepartamento; ?>" class="form-input" readonly>
@@ -30,7 +18,9 @@
 
     <div class="form-group">
         <label for="descripcion" class="form-label">Descripción:</label>
-        <input style="background-color: lightyellow; width: 250px;" type="text" id="descripcion" name="descripcion" value="<?= $departamento->T02_DescDepartamento; ?>" class="form-input" required>
+        <!-- Si estamos en modo ver, no se aplica el color lightyellow -->
+        <input style="width: 250px; <?= isset($modoVer) && $modoVer ? '' : 'background-color: lightyellow;' ?>" 
+               type="text" id="descripcion" name="descripcion" value="<?= $departamento->T02_DescDepartamento; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
     </div>
 
     <div class="form-group">
@@ -40,7 +30,9 @@
 
     <div class="form-group">
         <label for="volumenDeNegocio" class="form-label">Volumen de Negocio (€):</label>
-        <input style="background-color: lightyellow; width: 100px;" type="number" step="0.01" id="volumenDeNegocio" name="volumenDeNegocio" value="<?= $departamento->T02_VolumenDeNegocio; ?>" class="form-input" required>
+        <!-- Si estamos en modo ver, no se aplica el color lightyellow -->
+        <input style="width: 100px; <?= isset($modoVer) && $modoVer ? '' : 'background-color: lightyellow;' ?>" 
+               type="number" step="0.01" id="volumenDeNegocio" name="volumenDeNegocio" value="<?= $departamento->T02_VolumenDeNegocio; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
     </div>
 
     <div class="form-group">
@@ -49,8 +41,14 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" name="guardar" class="form-button form-button-save">Aceptar</button>
-        <button type="submit" name="volver" class="form-button form-button-cancel">Cancelar</button>
+        <?php if (isset($modoVer) && $modoVer): ?>
+            <!-- Solo el botón "Aceptar" si estamos en el modo "ver" -->
+            <button type="submit" name="volver" class="form-button form-button-cancel">Aceptar</button>
+        <?php else: ?>
+            <!-- Los botones de "Aceptar" y "Cancelar" si estamos en el modo "editar" -->
+            <button type="submit" name="guardar" class="form-button form-button-save">Aceptar</button>
+            <button type="submit" name="volver" class="form-button form-button-cancel">Cancelar</button>
+        <?php endif; ?>
     </div>
 </form>
 

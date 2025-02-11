@@ -43,7 +43,7 @@ if (isset($_POST['guardar'])) {
 // Si el usuario pulsa "Volver", redirigir a la página de mantenimiento
 if (isset($_POST['volver'])) {
     $_SESSION['paginaEnCurso'] = 'mtodep';
-    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    header('Location: indexLoginLogoff.php');
     exit();
 }
 
