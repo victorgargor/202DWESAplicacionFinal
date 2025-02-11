@@ -24,7 +24,7 @@
         <iframe src="doc/DiagramaDeCasosDeUso.pdf"></iframe>
     </div>
     <div class="pdf-container">
-        <iframe src="doc/DiagramaDeClases.pdf"></iframe>
+        <iframe src="doc/DiagramaDeClases.png"></iframe>
     </div>
     <div class="pdf-container">
         <iframe src="doc/EstructuraAlmacenamientoDWES.pdf"></iframe>

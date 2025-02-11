@@ -101,7 +101,7 @@ footer img {
     display: inline-block;
     position: fixed;
     top: 22px;
-    left: 300px;
+    left: 100px;
     z-index: 1001;
 }
 
@@ -110,7 +110,7 @@ footer img {
     display: inline-block;
     position: fixed;
     top: 24px;
-    left: 400px;
+    left: 200px;
     z-index: 1001;
     height: 50px;
 }
@@ -120,7 +120,7 @@ footer img {
     display: inline-block;
     position: fixed;
     top: 22px;
-    left: 500px;
+    left: 300px;
     z-index: 1001;
 }
 .españa img , .inglaterra img, .portugal img{
