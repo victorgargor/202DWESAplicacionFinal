@@ -51,6 +51,19 @@ if (isset($_POST['ver'])) {
     exit();
 }
 
+$porPagina = 5; // Número de departamentos por página
+$totalDepartamentos = count($departamentos); // Total de departamentos
+$totalPaginas = ceil($totalDepartamentos / $porPagina); // Número total de páginas
+
+// Obtén la página actual, si no se especifica, comienza en la 1
+$paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+
+// Calcular el índice de inicio
+$inicio = ($paginaActual - 1) * $porPagina;
+
+// Obtén solo los departamentos correspondientes a la página actual
+$departamentosPagina = array_slice($departamentos, $inicio, $porPagina);
+
 /**
  * Se carga la vista de mantenimiento de departamentos.
  */

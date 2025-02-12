@@ -1,7 +1,14 @@
-<header>      
-    <h1 id="inicio">Editar Departamento</h1>
+<?php
+/**
+ * @author Víctor García Gordón
+ * @version Fecha de última modificación 12/02/2025
+ */
+?>
+<header>
+    <h1 id="inicio">
+        <?= isset($modoVer) && $modoVer ? 'Ver Departamento' : 'Editar Departamento'; ?>
+    </h1>
 </header>
-
 <!-- Mensaje de confirmación o error -->
 <?php if (isset($mensaje)): ?>
     <p class="mensaje <?= strpos($mensaje, 'Error') === false ? 'mensaje-exito' : 'mensaje-error'; ?>">

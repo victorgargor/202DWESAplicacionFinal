@@ -28,21 +28,21 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (empty($departamentos)): ?>
+    <?php if (empty($departamentosPagina)): ?>
+        <tr>
+            <td colspan="5" style="padding: 10px; text-align: center; border: 1px solid #e1e4e8; background-color: #f9f9f9;">No se encontraron departamentos.</td>
+        </tr>
+    <?php else: ?>
+        <?php foreach ($departamentosPagina as $oDepartamento): ?>
             <tr>
-                <td colspan="5" style="padding: 10px; text-align: center; border: 1px solid #e1e4e8; background-color: #f9f9f9;">No se encontraron departamentos.</td>
-            </tr>
-        <?php else: ?>
-            <?php foreach ($departamentos as $oDepartamento): ?>
-                <tr>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo $oDepartamento->T02_CodDepartamento; ?></td>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo $oDepartamento->T02_DescDepartamento; ?></td>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo date_format(new DateTime($oDepartamento->T02_FechaCreacionDepartamento), 'd/m/Y'); ?></td>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo number_format($oDepartamento->T02_VolumenDeNegocio, 2, '.', '.'); ?> €</td>
-                    <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
-                        <?php echo $oDepartamento->T02_FechaBajaDepartamento ? date_format(new DateTime($oDepartamento->T02_FechaBajaDepartamento), 'd/m/Y') : 'Activo'; ?>
-                    </td>
-                    <td colspan="2" style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
+                <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo $oDepartamento->T02_CodDepartamento; ?></td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo $oDepartamento->T02_DescDepartamento; ?></td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo date_format(new DateTime($oDepartamento->T02_FechaCreacionDepartamento), 'd/m/Y'); ?></td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;"><?php echo number_format($oDepartamento->T02_VolumenDeNegocio, 2, '.', '.'); ?> €</td>
+                <td style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
+                    <?php echo $oDepartamento->T02_FechaBajaDepartamento ? date_format(new DateTime($oDepartamento->T02_FechaBajaDepartamento), 'd/m/Y') : 'Activo'; ?>
+                </td>
+                <td colspan="2" style="padding: 8px; text-align: center; border: 1px solid #e1e4e8;">
                         <form method="post" style="display:inline;">
                             <input type="hidden" name="codDepartamento" value="<?php echo $oDepartamento->T02_CodDepartamento; ?>">
                             <button type="submit" name="consultarModificar" style="border: none; background: none; cursor: pointer;">
@@ -55,12 +55,42 @@
                                 <img src="webroot/media/images/ver.png" alt="ver" style="width: 40px; margin-right: 5px;">
                             </button>
                         </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </tbody>
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="codDepartamento" value="<?php echo $oDepartamento->T02_CodDepartamento; ?>">
+                            <button type="submit" name="eliminar" style="border: none; background: none; cursor: pointer;">
+                                <img src="webroot/media/images/eliminar.png" alt="eliminar" style="width: 40px; margin-right: 5px;">
+                            </button>
+                        </form>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </table>
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+    <div>
+        <a href="?pagina=1" style="margin: 0 5px; padding: 5px; text-decoration: none;">
+            <img src="webroot/media/images/inicio.png" alt="Inicio" style="width: 40px; height: 40px;">
+        </a>
+  
+        <a href="?pagina=<?php echo $paginaActual > 1 ? $paginaActual - 1 : 1; ?>" style="margin: 0 5px; padding: 5px; text-decoration: none;">
+            <img src="webroot/media/images/atras.png" alt="Atrás" style="width: 40px; height: 40px;">
+        </a>
+
+        <a href="?pagina=<?php echo $paginaActual < $totalPaginas ? $paginaActual + 1 : $totalPaginas; ?>" style="margin: 0 5px; padding: 5px; text-decoration: none;">
+            <img src="webroot/media/images/adelante.png" alt="Adelante" style="width: 40px; height: 40px;">
+        </a>
+        
+        <a href="?pagina=<?php echo $totalPaginas; ?>" style="margin: 0 5px; padding: 5px; text-decoration: none;">
+            <img src="webroot/media/images/fin.png" alt="Fin" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+    <form method="post" name="añadir" style="display:inline;">
+        <button type="submit" name="añadir" style="border: none; background: none; cursor: pointer;">
+            <img src="webroot/media/images/añadir.png" alt="añadir" style="width: 40px; margin-right: 5px;">
+        </button>
+    </form>
+</div>
 <form method="post">
     <input type="submit" name="volver" value="Volver">
 </form>
