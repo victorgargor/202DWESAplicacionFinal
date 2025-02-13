@@ -150,7 +150,7 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    bottom: -275px;
+    bottom: -350px;
     left: -100px;
 }
 
@@ -977,10 +977,10 @@ footer img {
     background-color: #fff3e3;
     padding: 15px;
     border-radius: 8px;
-    top: -420px;
+    top: -400px;
     right: -400px;
     width: 500px;
-    height: 500px;
+    height: 650px;
 }
 
 .chuck-norris legend {

@@ -84,7 +84,13 @@ try {
 if (isset($_REQUEST['categoria'])) {
     // Obtiene la categoría seleccionada
     $categoria = $_REQUEST['categoria'];
-    $bromaChuck = REST::apiChuckNorris($categoria);
+
+    try {
+        $bromaChuck = REST::apiChuckNorris($categoria);
+    } catch (Exception $e) {
+        // Manejo de excepción en caso de categoría inválida
+        $bromaChuck = "Error: " . $e->getMessage(); // Mensaje de error que indica que la categoría no es válida
+    }
 } else {
     // Si no se ha enviado una categoría, obtiene una broma aleatoria
     $bromaChuck = REST::apiChuckNorris();

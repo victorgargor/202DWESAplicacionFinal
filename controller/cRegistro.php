@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Víctor García Gordón
- * @version Fecha de última modificación 29/01/2025
+ * @version Fecha de última modificación 13/02/2025
  */
 
 /**
@@ -15,81 +15,89 @@ if (isset($_REQUEST['volver'])) {
 }
 
 /**
- * Inicializa las variables para manejar el estado del formulario y los errores.
+ * Inicializa la variable de control
  * $entradaOK indica si la entrada es válida.
  * $aErrores almacena los mensajes de error para cada campo del formulario.
  */
+
+// Inicializamos la variable de control
 $entradaOK = true;
+
+// Inicializamos los errores de validación (vacíos inicialmente)
 $aErrores = [
     'codigo' => '',
     'password' => '',
     'descripcion' => ''
 ];
 
-/**
- * Verifica si el formulario de registro ha sido enviado.
- * Si se ha enviado, valida los datos y procesa el registro.
- */
+// Comprobamos si el formulario ha sido enviado
 if (isset($_REQUEST['registrarse'])) {
-    // Establece la página anterior como 'registro' para redirigir después en caso de error
     $_SESSION['paginaAnterior'] = 'registro';
 
-    /**
-     * Si la entrada es válida, se procede con el registro del nuevo usuario.
-     * Si hay algún error en el proceso de validación o registro, se detiene el proceso.
-     */
+    // Obtenemos los datos enviados
+    $codigo = isset($_REQUEST['codigo']) ? $_REQUEST['codigo'] : '';
+    $password = isset($_REQUEST['password']) ? $_REQUEST['password'] : '';
+    $descripcion = isset($_REQUEST['descripcion']) ? $_REQUEST['descripcion'] : '';
+
+    // Validamos cada campo y actualizamos los errores en caso de que haya alguno
+    // Verificamos si el código cumple con los requisitos de formato
+    if (validacionFormularios::comprobarAlfaNumerico($codigo, 32, 4, 1) != null) {
+        $aErrores['codigo'] = 'El código de usuario debe ser alfanumérico y tener entre 4 y 32 caracteres.';
+        $entradaOK = false; // Marcamos como no válido
+    }
+
+    // Verificamos si la contraseña cumple con los requisitos de formato
+    if (validacionFormularios::validarPassword($password, 32, 4, 2, 1) != null) {
+        $aErrores['password'] = 'La contraseña debe tener al menos 4 caracteres.';
+        $entradaOK = false; // Marcamos como no válido
+    }
+
+    // Verificamos si la descripción cumple con los requisitos de formato
+    if (validacionFormularios::comprobarAlfaNumerico($descripcion, 255, 4, 1) != null) {
+        $aErrores['descripcion'] = 'La descripción no puede ser vacía y debe tener un máximo de 255 caracteres.';
+        $entradaOK = false; // Marcamos como no válido
+    }
+
+    // Si no hubo errores, validamos el código de usuario en la base de datos
     if ($entradaOK) {
         try {
-            // Obtiene el código de usuario enviado por el formulario
-            $codigo = isset($_REQUEST['codigo']) ? $_REQUEST['codigo'] : '';
-
-            // Verifica si el código de usuario ya existe en la base de datos
+            // Verificamos si el código de usuario ya existe
             $usuarioExistente = UsuarioPDO::validarCodNoExiste($codigo);
             if ($usuarioExistente) {
-                // Si el código de usuario ya existe, se agrega un mensaje de error
                 $aErrores['codigo'] = 'El código de usuario ya existe.';
-                $entradaOK = false;
+                $entradaOK = false; // Marcamos como no válido
             } else {
-                // Si el código es único, se procede a registrar al usuario en la base de datos
-                $registroExitoso = UsuarioPDO::altaUsuario($_REQUEST['codigo'], $_REQUEST['password'], $_REQUEST['descripcion']);
+                // Si el código es único, registramos al usuario en la base de datos
+                $registroExitoso = UsuarioPDO::altaUsuario($codigo, $password, $descripcion);
 
                 if ($registroExitoso) {
-                    // Si el registro fue exitoso, se muestra un mensaje y se redirige al login
-                    $_SESSION['mensaje'] = '¡Registro exitoso! Ahora puedes iniciar sesión.';
-                    $_SESSION['paginaEnCurso'] = 'login';  // Redirige a la página de login
-                    header('Location: indexLoginLogoff.php');
+                    // Si el registro es exitoso, se inicia sesión automáticamente
+                    $_SESSION['mensaje'] = '¡Registro exitoso! Ahora serás redirigido a tu página privada.';
+                    $_SESSION['usuarioMiAplicacion'] = UsuarioPDO::validarUsuario($codigo, $password);  // Inicia sesión automáticamente
+                    $_SESSION['paginaEnCurso'] = 'inicioPrivado';  // Redirigimos a la página privada
+                    require_once $aControladores[$_SESSION['paginaEnCurso']]; // Redirigimos al controlador de la página privada
                     exit();
                 } else {
-                    // Si hubo un error al registrar el usuario, se muestra un mensaje de error
                     $aErrores['codigo'] = 'Hubo un error al registrar el usuario. Por favor, inténtelo más tarde.';
-                    $entradaOK = false;
+                    $entradaOK = false; // Marcamos como no válido
                 }
             }
         } catch (Exception $e) {
-            /**
-             * Si ocurre una excepción durante el proceso de registro, se captura el error.
-             * Se muestra un mensaje genérico y se loguea el error para su posterior revisión.
-             */
             $aErrores['codigo'] = 'Error inesperado en el registro. Inténtelo más tarde.';
-            $entradaOK = false;
+            $entradaOK = false; // Marcamos como no válido
 
-            // Se crea un objeto ErrorApp para registrar el error
-            $error = new ErrorApp($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), 'registro.php');
+            // Se registra el error en el log
+            $error = new ErrorApp($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), $_SESSION['paginaAnterior']);
             $error->logError();
         }
     }
-} else {
-    /**
-     * Si el formulario no ha sido enviado o la entrada es inválida, se inicializan los campos
-     * para mostrar un formulario de registro vacío con los errores correspondientes.
-     */
-    $codigo = '';
-    $password = '';
-    $descUsuario = '';
 }
 
 /**
  * Muestra el formulario de registro con los posibles mensajes de error almacenados
- * en el array $aErrores.
+ * en el array $aErrores, solo si el formulario fue enviado.
  */
 require_once $aVistas['layout'];
+
+
+
