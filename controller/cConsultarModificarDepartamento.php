@@ -6,46 +6,67 @@
  * los campos de descripción y volumen de negocio.
  * 
  * @author Víctor García Gordón
- * @version 10/02/2025
+ * @version 13/02/2025
  */
 
-// Si no hay un código de departamento en sesión, volver al mantenimiento
+// Verificar si hay un código de departamento en sesión
 if (!isset($_SESSION['codDepartamentoEnCurso'])) {
     header('Location: cMtoDepartamentos.php');
     exit();
 }
 
-// Obtener el código del departamento guardado en sesión
+// Obtener código del departamento
 $codDepartamento = $_SESSION['codDepartamentoEnCurso'];
 
-// Obtener los datos del departamento
+// Obtener los datos del departamento desde la base de datos
 $departamento = DepartamentoPDO::buscaDepartamentoPorCod($codDepartamento);
 
-// Si el departamento no existe, volver a la página de mantenimiento
+// Si no existe el departamento, redirigir a la página principal
 if (!$departamento) {
     header('Location: cMtoDepartamentos.php');
     exit();
 }
 
-// Si el usuario pulsa "Guardar", actualizar los datos en la base de datos
-if (isset($_POST['guardar'])) {
-    $descDepartamento = $_POST['descripcion'];
-    $volumenDeNegocio = $_POST['volumenDeNegocio'];
+// Inicialización de variables
+$mensaje = "";
+$entradaOK = true;
 
-    if (DepartamentoPDO::modificaDepartamento($codDepartamento, $descDepartamento, $volumenDeNegocio)) {
-        $mensaje = "Departamento actualizado correctamente.";
-        $departamento = DepartamentoPDO::buscaDepartamentoPorCod($codDepartamento); // Recargar datos
-    } else {
-        $mensaje = "Error al actualizar el departamento.";
-    }
-}
+$aErrores = [
+    'descripcion' => '',
+    'volumenDeNegocio' => ''
+];
 
-// Si el usuario pulsa "Volver", redirigir a la página de mantenimiento
-if (isset($_POST['volver'])) {
+// Si el usuario pulsa "Volver", regresar a la página de mantenimiento
+if (isset($_REQUEST['volver'])) {
     $_SESSION['paginaEnCurso'] = 'mtodep';
     header('Location: indexLoginLogoff.php');
     exit();
 }
 
-// Cargar la vista correspondiente (usando el array de vistas)
+// Si el usuario pulsa "Guardar", validar los datos
+if (isset($_REQUEST['guardar'])) {
+    $aErrores['descripcion'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descripcion'], 255, 1, 1);
+    $aErrores['volumenDeNegocio'] = validacionFormularios::comprobarFloat($_REQUEST['volumenDeNegocio'], PHP_FLOAT_MAX, 0, 1);
+
+    // Verificar si hay errores en la validación
+    foreach ($aErrores as $valor) {
+        if (!empty($valor)) {
+            $entradaOK = false;
+        }
+    }
+
+    // Si la validación es correcta, actualizar los datos
+    if ($entradaOK) {
+        if (DepartamentoPDO::modificaDepartamento($codDepartamento, $_REQUEST['descripcion'], $_REQUEST['volumenDeNegocio'])) {
+            $mensaje = "Departamento actualizado correctamente.";
+            $departamento = DepartamentoPDO::buscaDepartamentoPorCod($codDepartamento); // Recargar datos
+        } else {
+            $mensaje = "Error al actualizar el departamento.";
+        }
+    } else {
+        $mensaje = "Introduzca valores validos.";
+    }
+}
+
+// Cargar la vista correspondiente
 require_once $aVistas['layout'];

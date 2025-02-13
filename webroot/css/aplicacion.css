@@ -31,12 +31,10 @@ body {
 
 .mensaje-exito {
     color: green;
-    background-color: #e0f8e0;
 }
 
 .mensaje-error {
     color: red;
-    background-color: #f8e0e0;
 }
 
 .consultar-departamento-form {
@@ -479,7 +477,7 @@ input[name="rest"]:active {
     transform: translateY(0);
 }
 
-input[name="iniciarsesion"] {
+input[name="iniciarsesion"], [name="confirmarEliminar"] {
     background-color: #ffffff;
     color: #24292f;
     font-size: 14px;
@@ -491,14 +489,14 @@ input[name="iniciarsesion"] {
     width: 100%;
 }
 
-input[name="iniciarsesion"]:hover, input[name="registrarse"]:hover{
+input[name="iniciarsesion"]:hover, input[name="registrarse"]:hover, [name="confirmarEliminar"]:hover{
     background-color: #0366d6;
     color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
 
-input[name="iniciarsesion"]:active, input[name="registrarse"]:active {
+input[name="iniciarsesion"]:active, input[name="registrarse"]:active, [name="confirmarEliminar"]:active {
     background-color: #005bb5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(0);

@@ -44,7 +44,9 @@ $aControladores = [
     'wip' => 'controller/cWIP.php',
     'error' => 'controller/cErrorApp.php',
     'mtodep' => 'controller/cMtoDepartamentos.php',
-    'editar' => 'controller/cConsultarModificarDepartamento.php'
+    'editar' => 'controller/cConsultarModificarDepartamento.php',
+    'eliminar' => 'controller/cEliminarDepartamento.php',
+    'alta' => 'controller/cAltaDepartamento.php'
 ];
 
 /**
@@ -69,5 +71,7 @@ $aVistas = [
     'wip' => 'view/vWIP.php',
     'error' => 'view/vErrorApp.php',
     'mtodep' => 'view/vMtoDepartamentos.php',
-    'editar' => 'view/vConsultarModificarDepartamento.php'
+    'editar' => 'view/vConsultarModificarDepartamento.php',
+    'eliminar' => 'view/vEliminarDepartamento.php',
+    'alta' => 'view/vAltaDepartamento.php'
 ];

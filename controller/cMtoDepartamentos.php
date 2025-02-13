@@ -35,19 +35,60 @@ if (isset($_REQUEST['buscar'])) {
 }
 
 // Si el usuario selecciona un departamento para modificar
-if (isset($_POST['consultarModificar'])) {
-    $_SESSION['codDepartamentoEnCurso'] = $_POST['codDepartamento']; // Guardar en sesión
+if (isset($_REQUEST['consultarModificar'])) {
+    $_SESSION['codDepartamentoEnCurso'] = $_REQUEST['codDepartamento']; // Guardar en sesión
     $_SESSION['paginaEnCurso'] = 'editar';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
 
 // Si el usuario selecciona un departamento para ver
-if (isset($_POST['ver'])) {
-    $_SESSION['codDepartamentoEnCurso'] = $_POST['codDepartamento']; // Guardar el código en sesión
+if (isset($_REQUEST['ver'])) {
+    $_SESSION['codDepartamentoEnCurso'] = $_REQUEST['codDepartamento']; // Guardar el código en sesión
     $_SESSION['paginaEnCurso'] = 'editar'; // Mantener la misma página de "editar"
     $modoVer = true; // Activar el modo "ver"
     require_once $aControladores[$_SESSION['paginaEnCurso']]; // Cargar la vista correspondiente
+    exit();
+}
+
+// Si el usuario selecciona un departamento para eliminar
+if (isset($_REQUEST['eliminar'])) {
+    $_SESSION['codDepartamentoEnCurso'] = $_REQUEST['codDepartamento']; // Guardar en sesión
+    $_SESSION['paginaEnCurso'] = 'eliminar';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
+
+// Si el usuario selecciona dar de alta un departamento
+if (isset($_REQUEST['añadir'])) {
+    $_SESSION['paginaEnCurso'] = 'alta';
+    require_once $aControladores[$_SESSION['paginaEnCurso']];
+    exit();
+}
+
+// Si se pulsa el botón de baja lógica
+if (isset($_REQUEST['bajaLogica'])) {
+    // Obtener el código del departamento
+    $codDepartamento = $_POST['codDepartamento'];
+
+    // Realizar la baja lógica (esto podría ser un método que actualiza la fecha de baja)
+    DepartamentoPDO::bajaLogicaDepartamento($codDepartamento);
+
+    // Después de procesar la solicitud, recargamos la misma página con los cambios
+    header('Location: ' . $_SERVER['PHP_SELF']); // Recarga la misma página
+    exit();
+}
+
+// Si se pulsa el botón de rehabilitación
+if (isset($_REQUEST['rehabilitar'])) {
+    // Obtener el código del departamento
+    $codDepartamento = $_POST['codDepartamento'];
+
+    // Realizar la rehabilitación (esto podría ser un método que elimina la fecha de baja)
+    DepartamentoPDO::rehabilitaDepartamento($codDepartamento);
+
+    // Después de procesar la solicitud, recargamos la misma página con los cambios
+    header('Location: ' . $_SERVER['PHP_SELF']); // Recarga la misma página
     exit();
 }
 
@@ -56,7 +97,7 @@ $totalDepartamentos = count($departamentos); // Total de departamentos
 $totalPaginas = ceil($totalDepartamentos / $porPagina); // Número total de páginas
 
 // Obtén la página actual, si no se especifica, comienza en la 1
-$paginaActual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
+$paginaActual = isset($_REQUEST['pagina']) ? $_REQUEST['pagina'] : 1;
 
 // Calcular el índice de inicio
 $inicio = ($paginaActual - 1) * $porPagina;

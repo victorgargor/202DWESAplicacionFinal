@@ -62,36 +62,57 @@ class DepartamentoPDO {
     }
 
     /**
-     * Da de alta un nuevo departamento.
+     * Da de alta un nuevo departamento en la base de datos.
      * 
-     * Este método aún no está implementado. Debería insertar un nuevo departamento en la base de datos.
+     * Inserta un nuevo registro en la tabla `T02_Departamento` con el código, 
+     * descripción y volumen de negocio proporcionados. La fecha de creación 
+     * se registra automáticamente con la fecha y hora actual.
      * 
-     * @return bool Devuelve true si el departamento fue dado de alta correctamente, false en caso contrario.
+     * @param string $codDepartamento Código único del departamento (3 letras mayúsculas).
+     * @param string $descDepartamento Descripción del departamento (máximo 255 caracteres).
+     * @param float $volumenDeNegocio Volumen de negocio del departamento (valor positivo).
+     * 
+     * @return bool Devuelve `true` si el departamento fue insertado correctamente, `false` en caso contrario.
      */
-    public static function altaDepartamento() {
-        // Método no implementado.
+    public static function altaDepartamento($codDepartamento, $descDepartamento, $volumenDeNegocio) {
+        $sentenciaSQL = "INSERT INTO T02_Departamento (T02_CodDepartamento, T02_DescDepartamento, T02_VolumenDeNegocio, T02_FechaCreacionDepartamento) 
+                     VALUES (:codDepartamento, :descDepartamento, :volumenDeNegocio, NOW())";
+
+        $parametros = [
+            ':codDepartamento' => $codDepartamento,
+            ':descDepartamento' => $descDepartamento,
+            ':volumenDeNegocio' => $volumenDeNegocio
+        ];
+
+        return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
     }
 
     /**
-     * Da de baja físicamente un departamento.
+     * Elimina físicamente un departamento de la base de datos.
      * 
-     * Este método aún no está implementado. Debería eliminar un departamento de la base de datos de manera física.
-     * 
-     * @return bool Devuelve true si el departamento fue eliminado correctamente, false en caso contrario.
+     * @param string $codDepartamento Código del departamento a eliminar.
+     * @return bool Devuelve true si la eliminación fue exitosa, false en caso contrario.
      */
-    public static function bajaFisicaDepartamento() {
-        // Método no implementado.
+    public static function bajaFisicaDepartamento($codDepartamento) {
+        $sentenciaSQL = "DELETE FROM T02_Departamento WHERE T02_CodDepartamento = :codDepartamento";
+        $parametros = [':codDepartamento' => $codDepartamento];
+
+        return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
     }
 
     /**
-     * Da de baja lógicamente un departamento.
+     * Da de baja lógicamente un departamento al establecer la fecha de baja en el campo `T02_FechaBajaDepartamento`.
      * 
-     * Este método aún no está implementado. Debería marcar un departamento como dado de baja sin eliminarlo físicamente.
+     * Este método no elimina el departamento, solo marca su estado como "baja", estableciendo la fecha de baja en la base de datos.
      * 
-     * @return bool Devuelve true si el departamento fue dado de baja correctamente, false en caso contrario.
+     * @param string $codDepartamento Código del departamento a dar de baja.
+     * @return bool Devuelve `true` si el departamento fue dado de baja correctamente, `false` en caso contrario.
      */
-    public static function bajaLogicaDepartamento() {
-        // Método no implementado.
+    public static function bajaLogicaDepartamento($codDepartamento) {
+        $sentenciaSQL = "UPDATE T02_Departamento SET T02_FechaBajaDepartamento = NOW() WHERE T02_CodDepartamento = :codDepartamento AND T02_FechaBajaDepartamento IS NULL";
+        $parametros = [':codDepartamento' => $codDepartamento];
+
+        return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
     }
 
     /**
@@ -118,14 +139,18 @@ class DepartamentoPDO {
     }
 
     /**
-     * Rehabilita un departamento dado de baja lógicamente.
+     * Rehabilita un departamento marcado como baja lógica al eliminar la fecha de baja (`T02_FechaBajaDepartamento`).
      * 
-     * Este método aún no está implementado. Debería cambiar el estado de un departamento dado de baja lógicamente a activo.
+     * Este método permite recuperar un departamento dado de baja, dejándolo de nuevo en estado activo al eliminar la fecha de baja.
      * 
-     * @return bool Devuelve true si el departamento fue rehabilitado correctamente, false en caso contrario.
+     * @param string $codDepartamento Código del departamento a rehabilitar.
+     * @return bool Devuelve `true` si el departamento fue rehabilitado correctamente, `false` en caso contrario.
      */
-    public static function rehabilitaDepartamento() {
-        // Método no implementado.
+    public static function rehabilitaDepartamento($codDepartamento) {
+        $sentenciaSQL = "UPDATE T02_Departamento SET T02_FechaBajaDepartamento = NULL WHERE T02_CodDepartamento = :codDepartamento";
+        $parametros = [':codDepartamento' => $codDepartamento];
+
+        return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
     }
 
     /**

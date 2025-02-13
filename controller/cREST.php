@@ -32,8 +32,8 @@ $_SESSION['nasaFechaEnCurso'] = date("Y-m-d");
  * Verifica si se ha enviado una fecha específica para la foto de la NASA.
  * Si es así, actualiza la fecha en curso de la NASA en la sesión.
  */
-if (isset($_POST['fechaNasa'])) {
-    $_SESSION['nasaFechaEnCurso'] = $_POST['fechaNasa'];
+if (isset($_REQUEST['fechaNasa'])) {
+    $_SESSION['nasaFechaEnCurso'] = $_REQUEST['fechaNasa'];
 }
 
 try {
@@ -81,9 +81,9 @@ try {
  * Si es así, obtiene una broma de Chuck Norris correspondiente a esa categoría.
  * Si no, obtiene una broma aleatoria.
  */
-if (isset($_POST['categoria'])) {
+if (isset($_REQUEST['categoria'])) {
     // Obtiene la categoría seleccionada
-    $categoria = $_POST['categoria'];
+    $categoria = $_REQUEST['categoria'];
     $bromaChuck = REST::apiChuckNorris($categoria);
 } else {
     // Si no se ha enviado una categoría, obtiene una broma aleatoria
