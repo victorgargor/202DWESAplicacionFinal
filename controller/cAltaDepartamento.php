@@ -6,7 +6,6 @@
  * @version 14/02/2025
  */
 
-$mensaje = "";
 $entradaOK = true;
 
 $aErrores = [
@@ -47,11 +46,12 @@ if (isset($_REQUEST['guardar'])) {
     // Si la validación es correcta, registrar el departamento
     if ($entradaOK) {
         if (DepartamentoPDO::altaDepartamento($_REQUEST['codigo'], $_REQUEST['descripcion'], $_REQUEST['volumenDeNegocio'])) {
-            $mensaje = "Departamento creado correctamente.";
-        } else {
-            $mensaje = "Error al crear el departamento.";
+            // Redirigir directamente al mantenimiento de departamentos
+            $_SESSION['paginaEnCurso'] = 'mtodep';
+            header('Location: indexLoginLogoff.php');
+            exit();
         }
-    } 
+    }
 }
 
 // Cargar la vista

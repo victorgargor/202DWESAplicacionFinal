@@ -17,7 +17,10 @@
         <title>Víctor García Gordón</title>
     </head>
     <body>
-        <main>    
+        <main>   
+            <div class="logo-container">
+                <img src="webroot/media/images/logo.jpg" alt="Logo de la empresa">
+            </div>
             <div class="center">
                 <?php require_once $aVistas[$_SESSION['paginaEnCurso']]; ?>
             </div>

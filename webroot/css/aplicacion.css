@@ -14,6 +14,79 @@ body {
     overflow: hidden;
 }
 
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.alert-success {
+    background-color: #4CAF50; /* Verde */
+}
+
+.alert-error {
+    background-color: #f44336; /* Rojo */
+}
+
+.logo-container {
+    position: fixed;
+    top: 10px;
+    left: 40px;
+    width: 50px; /* Ajusta según el tamaño del logo */
+    height: 50px;
+    z-index: 1002; /* Asegura que esté por encima del resto del contenido */
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
+}
+
+#estadoActivos{
+    position: relative;
+    top: -85px;
+    left: 325px;
+}
+
+#estadoBaja{
+    position: relative;
+    top: -85px;
+    left: 345px;
+}
+
+#estadoTodos{
+    position: relative;
+    top: -85px;
+    left: 285px;
+}
+
+.estado{
+    position: relative;
+    top: -87px;
+    left: 200px;
+}
+
+.todos{
+    position: relative;
+    top: -87px;
+    left: 200px;
+}
+
+.activos{
+    position: relative;
+    top: -87px;
+    left: 230px;
+}
+
+.baja{
+    position: relative;
+    top: -87px;
+    left: 260px;
+}
+
 .consultar-departamento-header {
     background-color: #f4f4f4;
     padding: 15px;
@@ -47,7 +120,14 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+span.error {
+    color: red;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px; /* Añadido para que haya un pequeño espacio entre el input y el error */
 }
 
 .form-label {
@@ -503,10 +583,14 @@ input[name="iniciarsesion"]:active, input[name="registrarse"]:active, [name="con
 }
 
 button[name="buscar"] {
-    background-color: #ffffff;
-    color: #24292f;
+    position: relative;
+    top: -280px;
+    left: 800px;
+    background-color: #0366d6;
+    color: #ffffff;
     font-size: 14px;
-    padding: 8px 20px;
+    padding: 10px 20px;
+    margin-left: 15px;
     border: 1px solid #e1e4e8;
     border-radius: 4px;
     cursor: pointer;
@@ -515,8 +599,8 @@ button[name="buscar"] {
 }
 
 button[name="buscar"]:hover {
-    background-color: #0366d6;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #24292f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
@@ -1054,7 +1138,7 @@ footer img {
     .bandera img {
         width: 35px;
     }
-    
+
     .api-container {
         width: 95%;
         padding: 15px;

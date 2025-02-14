@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Controlador de mantenimiento de departamentos.
  * 
@@ -7,31 +6,108 @@
  * en la vista correspondiente.
  * 
  * @author Víctor García Gordón
- * @version 30/01/2025
+ * @version 13/02/2025
  */
 
 /**
  * Si el usuario pulsa "Volver", se redirige a la página de inicio privado.
  */
 if (isset($_REQUEST['volver'])) {
+    // Borrar las variables de sesión de búsqueda
+    unset($_SESSION['descripcionBuscada']);
+    unset($_SESSION['estadoFiltro']);
+    unset($_SESSION['pagina']); // Opcional, si deseas reiniciar la paginación
+
     $_SESSION['paginaEnCurso'] = 'inicioPrivado';
     require_once $aControladores[$_SESSION['paginaEnCurso']];
     exit();
 }
 
-/**
- * @var string $descripcion Almacena la descripción introducida por el usuario para la búsqueda.
- * @var array $departamentos Contiene la lista de departamentos encontrados.
- */
+// Definir cantidad de resultados por página
+$resultadosPorPagina = 5;
+
+// Si no existe una sesión para la página, inicializar en 1
+if (!isset($_SESSION['pagina'])) {
+    $_SESSION['pagina'] = 1;
+}
+
+// --------------------
+// Procesar la paginación
+// --------------------
+if (isset($_REQUEST['paginaPrimera'])) {
+    $_SESSION['pagina'] = 1;
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+if (isset($_REQUEST['paginaAnterior'])) {
+    if ($_SESSION['pagina'] > 1) {
+        $_SESSION['pagina']--;
+    }
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+if (isset($_REQUEST['paginaSiguiente'])) {
+    $_SESSION['pagina']++;
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+if (isset($_REQUEST['paginaUltima'])) {
+    // Obtener los filtros actuales para calcular el total de páginas
+    $descripcion = isset($_SESSION['descripcionBuscada']) ? $_SESSION['descripcionBuscada'] : '';
+    $estado = isset($_SESSION['estadoFiltro']) ? $_SESSION['estadoFiltro'] : 'todos';
+    $totalDepartamentos = DepartamentoPDO::contarDepartamentosPorDescYEstado($descripcion, $estado);
+    $totalPaginas = max(1, ceil($totalDepartamentos / $resultadosPorPagina));
+    $_SESSION['pagina'] = $totalPaginas;
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+// Inicializar variable $totalPaginas
+$totalPaginas = 1; // Valor predeterminado en caso de no haber búsqueda
+
+// Si el usuario pulsa "Buscar"
 if (isset($_REQUEST['buscar'])) {
     // Obtener la descripción ingresada por el usuario
     $descripcion = $_REQUEST['descripcion'];
+    $_SESSION['descripcionBuscada'] = $descripcion; // Guardar en sesión para mantener la búsqueda
 
-    // Buscar departamentos con la descripción proporcionada
-    $departamentos = DepartamentoPDO::buscaDepartamentosPorDesc($descripcion);
+    // Obtener el estado seleccionado (activos, baja o todos)
+    $estado = isset($_REQUEST['estado']) ? $_REQUEST['estado'] : 'todos'; // 'todos' por defecto
+    $_SESSION['estadoFiltro'] = $estado; // Guardar el filtro en sesión
+
+    // Contar total de departamentos para calcular páginas
+    $totalDepartamentos = DepartamentoPDO::contarDepartamentosPorDescYEstado($descripcion, $estado);
+    $totalPaginas = max(1, ceil($totalDepartamentos / $resultadosPorPagina));
+
+    // Verifica que la página actual no exceda el total de páginas
+    if ($_SESSION['pagina'] > $totalPaginas) {
+        $_SESSION['pagina'] = $totalPaginas;
+    }
+
+    // Obtener departamentos con paginación
+    $departamentos = DepartamentoPDO::buscaDepartamentosPorDescYEstado($descripcion, $estado, $_SESSION['pagina'], $resultadosPorPagina);
 } else {
-    // Si no se ha realizado una búsqueda, mostrar todos los departamentos
-    $departamentos = DepartamentoPDO::buscaDepartamentosPorDesc('');
+    // Si no se ha realizado una búsqueda, mantener los filtros existentes en sesión si existen
+    $descripcion = isset($_SESSION['descripcionBuscada']) ? $_SESSION['descripcionBuscada'] : '';
+    $estado = isset($_SESSION['estadoFiltro']) ? $_SESSION['estadoFiltro'] : 'todos';
+
+    // Obtener departamentos con paginación utilizando los valores de sesión
+    $departamentos = DepartamentoPDO::buscaDepartamentosPorDescYEstado($descripcion, $estado, $_SESSION['pagina'], $resultadosPorPagina);
+
+    // Si no están definidos en la sesión, se definen valores por defecto
+    if (!isset($_SESSION['estadoFiltro'])) {
+        $_SESSION['estadoFiltro'] = 'todos'; // Valor predeterminado
+    }
+    if (!isset($_SESSION['descripcionBuscada'])) {
+        $_SESSION['descripcionBuscada'] = '';
+    }
+
+    // Contar total de departamentos para calcular páginas
+    $totalDepartamentos = DepartamentoPDO::contarDepartamentosPorDescYEstado($descripcion, $estado);
+    $totalPaginas = max(1, ceil($totalDepartamentos / $resultadosPorPagina)); // Evitar división por 0
 }
 
 // Si el usuario selecciona un departamento para modificar
@@ -69,7 +145,7 @@ if (isset($_REQUEST['añadir'])) {
 // Si se pulsa el botón de baja lógica
 if (isset($_REQUEST['bajaLogica'])) {
     // Obtener el código del departamento
-    $codDepartamento = $_POST['codDepartamento'];
+    $codDepartamento = $_REQUEST['codDepartamento'];
 
     // Realizar la baja lógica (esto podría ser un método que actualiza la fecha de baja)
     DepartamentoPDO::bajaLogicaDepartamento($codDepartamento);
@@ -82,7 +158,7 @@ if (isset($_REQUEST['bajaLogica'])) {
 // Si se pulsa el botón de rehabilitación
 if (isset($_REQUEST['rehabilitar'])) {
     // Obtener el código del departamento
-    $codDepartamento = $_POST['codDepartamento'];
+    $codDepartamento = $_REQUEST['codDepartamento'];
 
     // Realizar la rehabilitación (esto podría ser un método que elimina la fecha de baja)
     DepartamentoPDO::rehabilitaDepartamento($codDepartamento);
@@ -92,20 +168,23 @@ if (isset($_REQUEST['rehabilitar'])) {
     exit();
 }
 
-$porPagina = 5; // Número de departamentos por página
-$totalDepartamentos = count($departamentos); // Total de departamentos
-$totalPaginas = ceil($totalDepartamentos / $porPagina); // Número total de páginas
+// Si se pulsa exportar
+if (isset($_REQUEST['exportar'])) {
+    DepartamentoPDO::exportaDepartamentos();
+}
 
-// Obtén la página actual, si no se especifica, comienza en la 1
-$paginaActual = isset($_REQUEST['pagina']) ? $_REQUEST['pagina'] : 1;
+// Si se pulsa importar
+if (isset($_REQUEST['importar'])) {
+    if (isset($_FILES['archivoXML']) && $_FILES['archivoXML']['error'] == UPLOAD_ERR_OK) {
+        $archivoXML = $_FILES['archivoXML']['tmp_name'];
+        $mensaje = DepartamentoPDO::importaDepartamentos($archivoXML);
+        $_SESSION['mensajeImportacion'] = $mensaje;
+    } else {
+        $_SESSION['mensajeImportacion'] = 'Error al subir el archivo.';
+    }
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
 
-// Calcular el índice de inicio
-$inicio = ($paginaActual - 1) * $porPagina;
-
-// Obtén solo los departamentos correspondientes a la página actual
-$departamentosPagina = array_slice($departamentos, $inicio, $porPagina);
-
-/**
- * Se carga la vista de mantenimiento de departamentos.
- */
+// Cargar la vista de mantenimiento de departamentos
 require_once $aVistas['layout'];

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Víctor García Gordón
- * @version Fecha de última modificación 12/02/2025
+ * @version Fecha de última modificación 13/02/2025
  */
 ?>
 <header>
@@ -9,10 +9,11 @@
         <?= isset($modoVer) && $modoVer ? 'Ver Departamento' : 'Editar Departamento'; ?>
     </h1>
 </header>
-<!-- Mensaje de confirmación o error -->
+
+<!-- Mensaje de error o confirmación -->
 <?php if (isset($mensaje)): ?>
     <p class="mensaje <?= strpos($mensaje, 'Error') === false ? 'mensaje-exito' : 'mensaje-error'; ?>">
-        <?= $mensaje; ?>
+        <?= htmlspecialchars($mensaje); ?>
     </p>
 <?php endif; ?>
 
@@ -27,7 +28,9 @@
         <label for="descripcion" class="form-label">Descripción:</label>
         <!-- Si estamos en modo ver, no se aplica el color lightyellow -->
         <input style="width: 250px; <?= isset($modoVer) && $modoVer ? '' : 'background-color: lightyellow;' ?>" 
-               type="text" id="descripcion" name="descripcion" value="<?= $departamento->T02_DescDepartamento; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
+               type="text" id="descripcion" name="descripcion" value="<?= isset($_REQUEST['descripcion']) ? htmlspecialchars($_REQUEST['descripcion']) : $departamento->T02_DescDepartamento; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
+        <!-- Mostrar error si existe -->
+        <span class="error"><?= $aErrores['descripcion'] ?? ''; ?></span>
     </div>
 
     <div class="form-group">
@@ -39,7 +42,9 @@
         <label for="volumenDeNegocio" class="form-label">Volumen de Negocio (€):</label>
         <!-- Si estamos en modo ver, no se aplica el color lightyellow -->
         <input style="width: 100px; <?= isset($modoVer) && $modoVer ? '' : 'background-color: lightyellow;' ?>" 
-               type="number" step="0.01" id="volumenDeNegocio" name="volumenDeNegocio" value="<?= $departamento->T02_VolumenDeNegocio; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
+               type="number" step="0.01" id="volumenDeNegocio" name="volumenDeNegocio" value="<?= isset($_REQUEST['volumenDeNegocio']) ? htmlspecialchars($_REQUEST['volumenDeNegocio']) : $departamento->T02_VolumenDeNegocio; ?>" class="form-input" <?= isset($modoVer) && $modoVer ? 'readonly' : 'required' ?>>
+        <!-- Mostrar error si existe -->
+        <span class="error"><?= $aErrores['volumenDeNegocio'] ?? ''; ?></span>
     </div>
 
     <div class="form-group">
@@ -58,4 +63,3 @@
         <?php endif; ?>
     </div>
 </form>
-

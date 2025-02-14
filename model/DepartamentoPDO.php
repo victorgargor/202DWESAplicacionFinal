@@ -62,6 +62,85 @@ class DepartamentoPDO {
     }
 
     /**
+     * Busca departamentos filtrados por descripción y estado con paginación.
+     *
+     * Este método permite buscar departamentos cuya descripción coincida parcialmente con el término proporcionado
+     * y filtrar los resultados según su estado (activos, de baja o todos). También aplica paginación para limitar 
+     * la cantidad de resultados devueltos en cada consulta.
+     *
+     * @param string $descripcion Texto de la descripción a buscar. Se usa "LIKE" para coincidencias parciales.
+     * @param string $estado Estado de los departamentos a filtrar. Puede ser:
+     *                       - 'activos': Solo departamentos sin fecha de baja.
+     *                       - 'baja': Solo departamentos con fecha de baja.
+     *                       - 'todos': No aplica filtro de estado.
+     * @param int $pagina Número de la página actual para la paginación.
+     * @param int $resultadosPorPagina Cantidad de registros que se deben mostrar por página.
+     * 
+     * @return array Un array de objetos con los departamentos que cumplen con los filtros y la paginación.
+     */
+    public static function buscaDepartamentosPorDescYEstado($descripcion, $estado, $pagina, $resultadosPorPagina) {
+        $departamentos = [];
+        $inicio = ($pagina - 1) * $resultadosPorPagina; // Calcular el primer registro de la página actual
+        // Construcción de la consulta base con filtrado por descripción
+        $sentenciaSQL = "SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE :descripcion";
+        $parametros = [':descripcion' => '%' . $descripcion . '%'];
+
+        // Aplicar filtro por estado
+        if ($estado == 'activos') {
+            $sentenciaSQL .= " AND T02_FechaBajaDepartamento IS NULL";
+        } elseif ($estado == 'baja') {
+            $sentenciaSQL .= " AND T02_FechaBajaDepartamento IS NOT NULL";
+        }
+
+        // Agregar límite de paginación usando concatenación para evitar errores de parámetro
+        $sentenciaSQL .= " LIMIT " . (int) $inicio . ", " . (int) $resultadosPorPagina;
+
+        // Ejecutar consulta
+        $consultaPreparada = DBPDO::ejecutarConsulta($sentenciaSQL, $parametros);
+
+        // Obtener los resultados en un array de objetos
+        while ($oDepartamento = $consultaPreparada->fetchObject()) {
+            $departamentos[] = $oDepartamento;
+        }
+
+        return $departamentos;
+    }
+
+    /**
+     * Cuenta la cantidad total de departamentos que cumplen con los filtros de descripción y estado.
+     *
+     * Este método permite conocer cuántos departamentos existen en la base de datos según los filtros aplicados.
+     * Es útil para calcular la cantidad de páginas necesarias en la paginación.
+     *
+     * @param string $descripcion Texto de la descripción a buscar. Se usa "LIKE" para coincidencias parciales.
+     * @param string $estado Estado de los departamentos a filtrar. Puede ser:
+     *                       - 'activos': Solo departamentos sin fecha de baja.
+     *                       - 'baja': Solo departamentos con fecha de baja.
+     *                       - 'todos': No aplica filtro de estado.
+     * 
+     * @return int El número total de departamentos que cumplen con los criterios de búsqueda.
+     */
+    public static function contarDepartamentosPorDescYEstado($descripcion, $estado) {
+        // Construcción de la consulta base con filtro por descripción
+        $sentenciaSQL = "SELECT COUNT(*) as total FROM T02_Departamento WHERE T02_DescDepartamento LIKE :descripcion";
+        $parametros = [':descripcion' => '%' . $descripcion . '%'];
+
+        // Aplicar filtro por estado
+        if ($estado == 'activos') {
+            $sentenciaSQL .= " AND T02_FechaBajaDepartamento IS NULL";
+        } elseif ($estado == 'baja') {
+            $sentenciaSQL .= " AND T02_FechaBajaDepartamento IS NOT NULL";
+        }
+
+        // Ejecutar consulta
+        $consultaPreparada = DBPDO::ejecutarConsulta($sentenciaSQL, $parametros);
+        $resultado = $consultaPreparada->fetch(PDO::FETCH_ASSOC);
+
+        // Retornar el total de departamentos encontrados
+        return $resultado['total'] ?? 0;
+    }
+
+    /**
      * Da de alta un nuevo departamento en la base de datos.
      * 
      * Inserta un nuevo registro en la tabla `T02_Departamento` con el código, 
@@ -151,6 +230,94 @@ class DepartamentoPDO {
         $parametros = [':codDepartamento' => $codDepartamento];
 
         return DBPDO::ejecutarConsulta($sentenciaSQL, $parametros)->rowCount() > 0;
+    }
+
+    /**
+     * Método que exporta todos los departamentos en formato XML y lo fuerza a descargar.
+     *
+     * @return void
+     */
+    public static function exportaDepartamentos() {
+        // Consulta SQL para obtener todos los departamentos
+        $sentenciaSQL = "SELECT * FROM T02_Departamento";
+        $consultaPreparada = DBPDO::ejecutarConsulta($sentenciaSQL);
+
+        // Crear un nuevo documento XML
+        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><departamentos></departamentos>');
+
+        // Recorrer los resultados y agregarlos al XML
+        while ($departamento = $consultaPreparada->fetch(PDO::FETCH_ASSOC)) {
+            $deptXML = $xml->addChild('departamento');
+            foreach ($departamento as $clave => $valor) {
+                $deptXML->addChild($clave, htmlspecialchars($valor));
+            }
+        }
+
+        // Definir el nombre del archivo
+        $nombreArchivo = "departamentos.xml";
+
+        // Configurar las cabeceras para forzar la descarga
+        header('Content-Type: application/xml; charset=UTF-8');
+        header('Content-Disposition: attachment; filename="' . $nombreArchivo . '"');
+
+        // Imprimir el XML y terminar la ejecución
+        echo $xml->asXML();
+        exit;
+    }
+
+    /**
+     * Importa departamentos desde un archivo XML.
+     * 
+     * Este método lee un archivo XML, extrae la información de los departamentos y los inserta
+     * en la base de datos. Si un departamento ya existe, se actualiza su información.
+     * 
+     * @param string $archivoXML Ruta del archivo XML a importar.
+     * @return string Mensaje con el resultado de la importación.
+     */
+    public static function importaDepartamentos($archivoXML) {
+        if (!file_exists($archivoXML)) {
+            return "Error: No se encontró el archivo XML.";
+        }
+
+        // Cargar el XML
+        $xml = simplexml_load_file($archivoXML);
+        if (!$xml) {
+            return "Error: No se pudo cargar el archivo XML.";
+        }
+
+        foreach ($xml->departamento as $departamento) {
+            $codigo = (string) $departamento->T02_CodDepartamento;  // Actualizar con el nombre correcto
+            $descripcion = (string) $departamento->T02_DescDepartamento;  // Actualizar con el nombre correcto
+            $fechaAlta = (string) $departamento->T02_FechaCreacionDepartamento;  // Actualizar con el nombre correcto
+            $volumenNegocio = (float) $departamento->T02_VolumenDeNegocio;  // Actualizar con el nombre correcto
+            $fechaBaja = (string) $departamento->T02_FechaBajaDepartamento;  // Actualizar con el nombre correcto
+            // Si FechaBajaDepartamento está vacío, usar 'null'
+            $fechaBaja = empty($fechaBaja) ? null : $fechaBaja;
+
+            // Verificar si el departamento ya existe
+            $sqlExistencia = "SELECT * FROM T02_Departamento WHERE T02_CodDepartamento = ?";
+            $resultado = DBPDO::ejecutarConsulta($sqlExistencia, [$codigo]);
+
+            if ($resultado->rowCount() > 0) {
+                // Actualizar si ya existe
+                $sqlActualizar = "UPDATE T02_Departamento SET 
+                    T02_DescDepartamento = ?, 
+                    T02_FechaCreacionDepartamento = ?, 
+                    T02_VolumenDeNegocio = ?, 
+                    T02_FechaBajaDepartamento = ? 
+                    WHERE T02_CodDepartamento = ?";
+                DBPDO::ejecutarConsulta($sqlActualizar, [$descripcion, $fechaAlta, $volumenNegocio, $fechaBaja, $codigo]);
+                $contadorActualizados++;
+            } else {
+                // Insertar si no existe
+                $sqlInsertar = "INSERT INTO T02_Departamento (T02_CodDepartamento, T02_DescDepartamento, T02_FechaCreacionDepartamento, T02_VolumenDeNegocio, T02_FechaBajaDepartamento) 
+                    VALUES (?, ?, ?, ?, ?)";
+                DBPDO::ejecutarConsulta($sqlInsertar, [$codigo, $descripcion, $fechaAlta, $volumenNegocio, $fechaBaja]);
+                $contadorInsertados++;
+            }
+        }
+
+        return "Importación completada: $contadorInsertados nuevos departamentos insertados, $contadorActualizados actualizados.";
     }
 
     /**

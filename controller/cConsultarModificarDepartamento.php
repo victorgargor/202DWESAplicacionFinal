@@ -28,7 +28,6 @@ if (!$departamento) {
 }
 
 // Inicialización de variables
-$mensaje = "";
 $entradaOK = true;
 
 $aErrores = [
@@ -45,7 +44,10 @@ if (isset($_REQUEST['volver'])) {
 
 // Si el usuario pulsa "Guardar", validar los datos
 if (isset($_REQUEST['guardar'])) {
+    // Validar descripción
     $aErrores['descripcion'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['descripcion'], 255, 1, 1);
+
+    // Validar volumen de negocio
     $aErrores['volumenDeNegocio'] = validacionFormularios::comprobarFloat($_REQUEST['volumenDeNegocio'], PHP_FLOAT_MAX, 0, 1);
 
     // Verificar si hay errores en la validación
@@ -55,18 +57,24 @@ if (isset($_REQUEST['guardar'])) {
         }
     }
 
-    // Si la validación es correcta, actualizar los datos
+    // Comprobar si no se ha realizado ningún cambio
+    if ($entradaOK && ($_REQUEST['descripcion'] == $departamento->T02_DescDepartamento) && ($_REQUEST['volumenDeNegocio'] == $departamento->T02_VolumenDeNegocio)) {
+        // Si no hay cambios, redirigir al mantenimiento de departamentos
+        $_SESSION['paginaEnCurso'] = 'mtodep';
+        header('Location: indexLoginLogoff.php');
+        exit();
+    }
+
+    // Si la validación es correcta y hay cambios, actualizar los datos
     if ($entradaOK) {
         if (DepartamentoPDO::modificaDepartamento($codDepartamento, $_REQUEST['descripcion'], $_REQUEST['volumenDeNegocio'])) {
-            $mensaje = "Departamento actualizado correctamente.";
-            $departamento = DepartamentoPDO::buscaDepartamentoPorCod($codDepartamento); // Recargar datos
-        } else {
-            $mensaje = "Error al actualizar el departamento.";
+            // Redirigir a la página de mantenimiento de departamentos
+            header('Location: cMtoDepartamentos.php');
+            exit();
         }
-    } else {
-        $mensaje = "Introduzca valores validos.";
     }
 }
 
 // Cargar la vista correspondiente
 require_once $aVistas['layout'];
+
