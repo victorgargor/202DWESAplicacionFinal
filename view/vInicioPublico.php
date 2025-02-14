@@ -33,12 +33,12 @@
   <div class="hero__bg4" id="heroBg4"></div> 
 </div>
 
-<!-- Segundo hero con fondo PDF -->
+<!-- Segundo hero con fondo PDF 
 <div class="hero hero-pdf2" id="heroPdf2">
   <div class="pdf-images" id="pdfImages2">
-    <!-- Aquí se insertarán las imágenes dinámicamente para el segundo hero -->
+     Aquí se insertarán las imágenes dinámicamente para el segundo hero 
   </div>
-</div>
+</div> -->
 
 <div class="hero" id="hero">
   <!-- Elemento hijo que muestra la imagen -->
