@@ -23,9 +23,9 @@ if (isset($_SESSION['mensaje'])):
     <div class="form-group">
         <input type="submit" name="iniciarsesion" value="Iniciar Sesión">
     </div>
-    <div class="form-group">
+    <!--<div class="form-group">
         <input type="submit" name="registrarse" value="Registrarse">
-    </div>
+    </div>-->
 </form>
 <form method="post">
     <input type="submit" name="volver" value="Volver">

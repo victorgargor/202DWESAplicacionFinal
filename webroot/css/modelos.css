@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.logo-container {
+  position: fixed;
+  top: 10px;
+  left: 40px;
+  width: 50px; /* Ajusta según el tamaño del logo */
+  height: 50px;
+  z-index: 1002; /* Asegura que esté por encima del resto del contenido */
+}
+
+.logo-container img {
+  width: 100%;
+  height: auto;
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Oculta lo que se salga del contenedor */
+}
+
+.hero__bg, .hero__bg2, .hero__bg3, .hero__bg4, .hero__bg5, .hero__bg6, .hero__bg7{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.hero__bg{
+    background: url('../media/images/arbol.jpg') no-repeat center center; 
+    background-size: contain;
+}
+
+.hero__bg2 {
+    background: url('../media/images/casos.jpg') no-repeat center center;
+    background-size: contain;
+}
+
+.hero__bg3 {
+    background: url('../media/images/crud.jpg') no-repeat center center;
+    background-size: contain;
+}
+
+.hero__bg4{
+    background: url('../media/images/clases.png') no-repeat center center;
+    background-size: contain;
+}
+
+.hero__bg5{
+    background: url('../media/images/relacion.jpg') no-repeat center center;
+    background-size: contain;
+}
+
+.hero__bg6{
+    background: url('../media/images/sesion.jpg') no-repeat center center;
+    background-size: contain;
+}
+
+.hero__bg7{
+    background: url('../media/images/datos.png') no-repeat center center;
+    background-size: contain;
+}
+
+/* Hero PDF - configuración para imágenes de PDF */
+.hero-pdf, .hero-pdf2 {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto; /* Scroll horizontal permitido */
+    overflow-y: hidden; /* Sin scroll vertical */
+    padding-bottom: 20px; /* Separación de la barra de scroll horizontal */
+    z-index: 10; /* Asegura que se quede encima del fondo */
+}
+
+/* Contenedor de las imágenes del PDF */
+.pdf-images {
+  display: flex;
+  gap: 10px;
+  min-width: 100%;  /* Evita que se corte la primera imagen */
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 20px; /* Añadido espacio debajo de las imágenes */
+}
+
+/* Las imágenes dentro del contenedor */
+.pdf-images img {
+  height: 80vh; /* Ajuste para asegurar que la imagen no se corte */
+  width: auto;
+  max-width: 100%; /* No desbordar horizontalmente */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  scroll-snap-align: start;
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilo cuando se hace zoom */
+.pdf-images img.zoomed {
+  transform: scale(1.5); /* Aumenta el tamaño de la imagen */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  cursor: grab;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  /* Asegura que no haya recortes */
+  max-width: none;
+  max-height: none;
+}
+
+/* Permite desplazarse con scroll vertical */
+.pdf-images {
+  max-height: 100vh;
+}
+
+/* Para manejar el scroll vertical cuando se hace zoom */
+.pdf-images {
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+form input[type="submit"] {
+    position: fixed;
+    top: 22px;
+    right: 50px;
+    background: #007BFF; /* Azul profesional */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+}
+
+form input[type="submit"]:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+form input[type="submit"]:active {
+    background: #004494;
+    transform: translateY(0);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- SECCIÓN DE DOCUMENTOS (SCROLL INDIVIDUAL) --- */
+.documentos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0;
+    background: #f5f5f5;
+}
+
+.pdf-container {
+    width: 80%;
+    height: 800px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.pdf-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- FOOTER --- */
+footer {
+    width: 100%;
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: lightblue;
+}
+
+footer img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.españa{
+    margin: 0 10px;
+    display: inline-block;
+    position: fixed;
+    top: 22px;
+    left: 150px;
+    z-index: 1001;
+}
+
+.inglaterra{
+    margin: 0 10px;
+    display: inline-block;
+    position: fixed;
+    top: 24px;
+    left: 250px;
+    z-index: 1001;
+    height: 50px;
+}
+
+.portugal{
+    margin: 0 10px;
+    display: inline-block;
+    position: fixed;
+    top: 22px;
+    left: 350px;
+    z-index: 1001;
+}
+.españa img , .inglaterra img, .portugal img{
+    width: 40px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.españa img:hover {
+    transform: scale(1.1);
+}
+
+.inglaterra img:hover {
+    transform: scale(1.1);
+}
+
+.portugal img:hover {
+    transform: scale(1.1);
+}

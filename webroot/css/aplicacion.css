@@ -14,6 +14,193 @@ body {
     overflow: hidden;
 }
 
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.alert-success {
+    background-color: #4CAF50; /* Verde */
+}
+
+.alert-error {
+    background-color: #f44336; /* Rojo */
+}
+
+.logo-container {
+    position: fixed;
+    top: 10px;
+    left: 40px;
+    width: 50px; /* Ajusta según el tamaño del logo */
+    height: 50px;
+    z-index: 1002; /* Asegura que esté por encima del resto del contenido */
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
+}
+
+#estadoActivos{
+    position: relative;
+    top: -85px;
+    left: 325px;
+}
+
+#estadoBaja{
+    position: relative;
+    top: -85px;
+    left: 345px;
+}
+
+#estadoTodos{
+    position: relative;
+    top: -85px;
+    left: 285px;
+}
+
+.estado{
+    position: relative;
+    top: -87px;
+    left: 200px;
+}
+
+.todos{
+    position: relative;
+    top: -87px;
+    left: 200px;
+}
+
+.activos{
+    position: relative;
+    top: -87px;
+    left: 230px;
+}
+
+.baja{
+    position: relative;
+    top: -87px;
+    left: 260px;
+}
+
+.consultar-departamento-header {
+    background-color: #f4f4f4;
+    padding: 15px;
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+}
+
+.mensaje {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.mensaje-exito {
+    color: green;
+}
+
+.mensaje-error {
+    color: red;
+}
+
+.consultar-departamento-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+span.error {
+    color: red;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px; /* Añadido para que haya un pequeño espacio entre el input y el error */
+}
+
+.form-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-input:read-only {
+    background-color: #f4f4f4;
+    cursor: not-allowed;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.form-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.form-button-save {
+    background-color: #ffffff;
+    color: #24292f;
+    font-size: 14px;
+    padding: 8px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.form-button-save:hover{
+    background-color: #0366d6;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.form-button-cancel {
+    background-color: #ffffff;
+    color: #24292f;
+    font-size: 14px;
+    padding: 8px 20px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.form-button-cancel:hover{
+    background-color: #0366d6;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
 /* Contenedor principal */
 .api-container {
     width: 1200px;
@@ -43,7 +230,7 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    bottom: -275px;
+    bottom: -350px;
     left: -100px;
 }
 
@@ -370,7 +557,7 @@ input[name="rest"]:active {
     transform: translateY(0);
 }
 
-input[name="iniciarsesion"] {
+input[name="iniciarsesion"], [name="confirmarEliminar"] {
     background-color: #ffffff;
     color: #24292f;
     font-size: 14px;
@@ -382,24 +569,28 @@ input[name="iniciarsesion"] {
     width: 100%;
 }
 
-input[name="iniciarsesion"]:hover, input[name="registrarse"]:hover{
+input[name="iniciarsesion"]:hover, input[name="registrarse"]:hover, [name="confirmarEliminar"]:hover{
     background-color: #0366d6;
     color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
 
-input[name="iniciarsesion"]:active, input[name="registrarse"]:active {
+input[name="iniciarsesion"]:active, input[name="registrarse"]:active, [name="confirmarEliminar"]:active {
     background-color: #005bb5;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(0);
 }
 
 button[name="buscar"] {
-    background-color: #ffffff;
-    color: #24292f;
+    position: relative;
+    top: -280px;
+    left: 800px;
+    background-color: #0366d6;
+    color: #ffffff;
     font-size: 14px;
-    padding: 8px 20px;
+    padding: 10px 20px;
+    margin-left: 15px;
     border: 1px solid #e1e4e8;
     border-radius: 4px;
     cursor: pointer;
@@ -408,8 +599,8 @@ button[name="buscar"] {
 }
 
 button[name="buscar"]:hover {
-    background-color: #0366d6;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #24292f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
@@ -870,10 +1061,10 @@ footer img {
     background-color: #fff3e3;
     padding: 15px;
     border-radius: 8px;
-    top: -420px;
+    top: -400px;
     right: -400px;
     width: 500px;
-    height: 500px;
+    height: 650px;
 }
 
 .chuck-norris legend {
@@ -947,7 +1138,7 @@ footer img {
     .bandera img {
         width: 35px;
     }
-    
+
     .api-container {
         width: 95%;
         padding: 15px;
